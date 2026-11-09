@@ -8,7 +8,7 @@ import numpy as np, pandas as pd
 from scipy import stats
 
 PARAMS = dict(win_start=2021, win_end=2026, years=5, max_crop_pct=100, max_crop_val=10_000_000, max_liv_per=300_000,
-              max_pou_n=1000, max_pou_per=5000, min_low=100, fx=124, iied=6608, min_cell=5)
+              max_pou_n=1000, max_pou_per=5000, min_low=100, fx=124, min_cell=5, drought_physical_exclude=True)
 
 ASSETS = ['Residence', 'Agricultural land', 'Plants (privately owned)', 'Houses', 'Shop', 'Boats', 'Furniture', 'Utensils', 'Fuel',
           'Educational Materials', 'Fisheries', 'Other']
@@ -116,6 +116,13 @@ def clean_events(ev, hh, P):
         ev['PouDied'] = np.where(ev.PouN <= P['max_pou_n'], ev.PouN, 0)
         ev['PouLoss'] = np.where((ev.PouN > 0) & (ev.PouDied > 0) & (ev.PouV / ev.PouN <= P['max_pou_per']), ev.PouV, 0)
     ev['LivDied'] = ev.LivN
+    # Drought is slow-onset: injuries, deaths and structural damage recorded against it are treated as entry errors
+    if P.get('drought_physical_exclude'):
+        dr = ev.Type == 'Drought'
+        ev['DroughtFlag'] = (dr & ((ev.Deaths + ev.Injured + ev.HouseLoss + ev.HouseRepair + ev.LatLoss + ev.TWLoss) > 0)).astype(int)
+        for c in ['Deaths', 'Injured', 'HouseLoss', 'HouseRepair', 'LatLoss', 'TWLoss']: ev.loc[dr, c] = 0
+    else:
+        ev['DroughtFlag'] = 0
     ev['Infra'] = ev.HouseLoss + ev.LatLoss + ev.TWLoss
     ev['Livelihood'] = ev.CropLoss + ev.LivLoss + ev.PouLoss
     ev['Total'] = ev.Infra + ev.Livelihood
@@ -168,6 +175,11 @@ def region_metrics(H, E_scope, E_win, M, P):
     o['avg_affected'] = mean(A.Total)
     o['per_hh_year'] = R(H.Total.sum() / n / P['years'])
     o['any_full'] = pct(H.AnyFull)
+    o['any_full_n'] = int(H.AnyFull.sum())
+    sup, nos = H[H.AnySupport == 1], H[H.AnySupport == 0]
+    o['support'] = {'yes': {'n': len(sup), 'total': R(sup.Total.sum()), 'avg': mean(sup.Total), 'avg_affected': mean(sup.Total[sup.Affected == 1]), 'infra': R(sup.Infra.sum()), 'liv': R(sup.Livelihood.sum())},
+                    'no': {'n': len(nos), 'total': R(nos.Total.sum()), 'avg': mean(nos.Total), 'avg_affected': mean(nos.Total[nos.Affected == 1]), 'infra': R(nos.Infra.sum()), 'liv': R(nos.Livelihood.sum())},
+                    'gov': {'n': int(H.Gov.sum()), 'avg': mean(H.Total[H.Gov == 1])}, 'fs': {'n': int(H.FS.sum()), 'avg': mean(H.Total[H.FS == 1])}}
     o['assets'] = [pct(H[f'F{i+1}']) for i in range(12)]
     o['range'] = {c: [low(H[c]), R(H[c].max())] for c in ['Infra', 'Livelihood', 'Total', 'HouseLoss']}
     o['hh_with'] = {c: int((H[c] > 0).sum()) for c in ['Infra', 'Livelihood', 'CropLoss', 'LivLoss', 'PouLoss', 'Deaths', 'Injured']}
@@ -194,11 +206,11 @@ def region_metrics(H, E_scope, E_win, M, P):
     # correlations
     HL = H[(H.HouseLoss + H.HouseRepair) > 0]
     cy2 = cyc[(cyc.HouseLoss + cyc.HouseRepair) > 0]
-    pairs = [(H.Gov, H.Total), (H.FS, H.Total), (H.NGO, H.Total), (H.NoSupport, H.Total), (H.FHH, H.Total), (H.FHH, H.AnySupport),
-             (HL.HouseLoss, HL.HouseRepair), (cy2.HouseLoss, cy2.HouseRepair), (H.HouseLoss, H.CropLoss), (H.HouseLoss, H.Debt), (H.CropLoss, H.Debt),
-             (H.Total, H.Debt), (H.Total, H.P4), (H.Total, H.Chronic), (H.Total, H.MealsLow), (H.Women, H.Chronic)]
+    pairs = [(H.Gov, H.Total), (H.FS, H.Total), (H.NoSupport, H.Total), (H.FHH, H.Total), (H.FHH, H.AnySupport),
+             (HL.HouseLoss, HL.HouseRepair), (cy2.HouseLoss, cy2.HouseRepair), (H.HouseLoss, H.Debt), (H.CropLoss, H.Debt),
+             (H.Total, H.Debt), (H.Total, H.P4)]
     o['corr'] = [corr(a, b) for a, b in pairs]
-    o['groups'] = [[mean(H.Total[H[c] == 1]), mean(H.Total[H[c] == 0]), int((H[c] == 1).sum())] for c in ['Gov', 'FS', 'NGO', 'NoSupport', 'FHH']]
+    o['groups'] = [[mean(H.Total[H[c] == 1]), mean(H.Total[H[c] == 0]), int((H[c] == 1).sum())] for c in ['Gov', 'FS', 'NoSupport', 'FHH']]
     F, Mh = H[H.FHH == 1], H[H.FHH == 0]
     o['fhh'] = {'n': len(F), 'support': pct(F.AnySupport), 'support_m': pct(Mh.AnySupport), 'avg': mean(F.Total), 'avg_m': mean(Mh.Total), 'nosupport': pct(F.NoSupport)}
     # women / health / debt
@@ -246,6 +258,7 @@ def build(north_xlsx, south_xlsx, P=PARAMS):
     excluded = {'outside_window': int((ev.InWin == 0).sum()),
                 'crop_pct_invalid': int(((ev.CropPct > P['max_crop_pct']) | (ev.CropPct < 0)).sum()),
                 'poultry_value_outliers': int(((ev.PouV > 0) & (ev.PouLoss == 0)).sum()),
+                'drought_physical': int(ev.DroughtFlag.sum()),
                 'livestock_value_outliers': int(((ev.LivV > 0) & (ev.LivLoss == 0)).sum())}
     meta = {'updated': dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%d %H:%M UTC'), 'households': {'Northern': int((hh.Region == 'Northern').sum()), 'Southern': int((hh.Region == 'Southern').sum())},
             'events': int(len(ev)), 'members': int(len(mem)), 'params': P, 'excluded': excluded,

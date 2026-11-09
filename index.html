@@ -11,13 +11,18 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased}
 .wrap{max-width:1240px;margin:0 auto;padding:0 18px}
-/* header art */
-header{position:relative;height:150px;overflow:hidden;background:linear-gradient(100deg,#13203A,#1B2A41 45%,#16485C 75%,#0F6E6A)}
-header svg.art{position:absolute;right:0;top:0;height:100%;width:62%}
-header .t{position:absolute;left:28px;top:30px;color:#fff;z-index:2}
-header h1{margin:0;font-size:30px;letter-spacing:-.5px}
-header p{margin:6px 0 0;color:#C9D3E0;font-size:13px}
-header .upd{position:absolute;right:16px;bottom:10px;color:#C9D3E0;font-size:11px;z-index:2;background:rgba(0,0,0,.25);padding:3px 8px;border-radius:10px}
+/* header: Friendship climate action interventions illustration, slow pan */
+header{position:relative;height:230px;overflow:hidden;background:#13203A}
+header .bg{position:absolute;inset:0;background:url('interventions.jpg') 50% 13%/cover no-repeat;animation:pan 80s ease-in-out infinite alternate;filter:saturate(1.08)}
+@keyframes pan{0%{background-position:50% 13%}100%{background-position:50% 97%}}
+header .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(19,32,58,.94) 0%,rgba(19,32,58,.82) 34%,rgba(19,32,58,.25) 62%,rgba(19,32,58,0) 80%)}
+header .logo{position:absolute;left:28px;top:20px;height:34px;z-index:2}
+header .t{position:absolute;left:28px;top:80px;color:#fff;z-index:2;max-width:620px}
+header h1{margin:0;font-size:32px;letter-spacing:-.5px}
+header p{margin:6px 0 0;color:#D6DEEA;font-size:13px}
+header .upd{position:absolute;right:16px;bottom:10px;color:#fff;font-size:11px;z-index:2;background:rgba(19,32,58,.7);padding:3px 9px;border-radius:10px}
+header .cap{position:absolute;right:16px;top:14px;color:#fff;font-size:11px;font-weight:700;z-index:2;background:rgba(15,157,138,.85);padding:4px 10px;border-radius:10px}
+@media(prefers-reduced-motion:reduce){header .bg{animation:none}}
 /* sticky filter bar */
 .bar{position:sticky;top:0;z-index:20;background:rgba(238,241,245,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .filters{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;padding:10px 0}
@@ -45,7 +50,7 @@ main{padding:16px 0 40px}
 .g6{grid-template-columns:repeat(6,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
 .span2{grid-column:span 2}.span3{grid-column:span 3}.span4{grid-column:span 4}
 @media(max-width:1000px){.g6{grid-template-columns:repeat(3,1fr)}.g4,.g3{grid-template-columns:repeat(2,1fr)}.span3,.span4{grid-column:span 2}}
-@media(max-width:620px){.g6,.g4,.g3,.g2{grid-template-columns:1fr 1fr}.span2,.span3,.span4{grid-column:span 2}header h1{font-size:22px}header svg.art{opacity:.45;width:100%}}
+@media(max-width:620px){.g6,.g4,.g3,.g2{grid-template-columns:1fr 1fr}.span2,.span3,.span4{grid-column:span 2}header h1{font-size:22px}header .shade{background:rgba(19,32,58,.78)}header .cap{display:none}}
 .card{background:var(--card);border-radius:14px;padding:14px 16px;box-shadow:0 1px 2px rgba(16,24,40,.05);border:1px solid #E8ECF2}
 .card h3{margin:0 0 8px;font-size:14px;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}
 .card h3 .sub{font-weight:500;color:var(--muted);font-size:11px}
@@ -91,8 +96,11 @@ footer{color:var(--muted);font-size:11px;text-align:center;padding:20px}
 </head>
 <body>
 <header>
-  <div class="t"><h1>Loss &amp; Damage Observatory</h1><p>Friendship · Baseline 2026 · char &amp; coastal Bangladesh · from local evidence to global action</p></div>
-  <svg class="art" viewBox="0 0 700 150" preserveAspectRatio="xMaxYMid slice" id="art"></svg>
+  <div class="bg" role="img" aria-label="Friendship Climate Action Sector interventions illustration"></div>
+  <div class="shade"></div>
+  <img class="logo" alt="Friendship" src="data:image/png;base64,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">
+  <div class="t"><h1>Loss &amp; Damage Observatory</h1><p>Baseline 2026 · char &amp; coastal Bangladesh · loss and damage over the past 5 years</p></div>
+  <div class="cap">Climate Action Sector interventions</div>
   <div class="upd" id="upd">loading…</div>
 </header>
 
@@ -123,12 +131,11 @@ footer{color:var(--muted);font-size:11px;text-align:center;padding:20px}
         <div id="mainChart"></div>
         <div class="legend"><span><i style="background:var(--north)"></i>North · char</span><span><i style="background:var(--south)"></i>South · coastal</span></div>
       </div>
-      <div class="card"><h3>Where the money was lost <span class="sub">selected region</span></h3><div id="donut"></div></div>
+      <div class="card"><h3>Total loss and damage of assets (BDT) <span class="sub">past 5 years</span></h3><div id="donut"></div></div>
     </div>
     <div class="grid g3" style="margin-top:14px">
       <div class="card" style="background:#0E1A2B;border-color:#0E1A2B"><h3 style="color:#fff">🗺️ Where we surveyed <span class="sub" style="color:#9fb3c8">tap a district</span></h3><div id="map"></div></div>
-      <div class="card"><h3>🏚️ Top 5 assets fully destroyed <span class="sub">&gt;70% damaged</span></h3><div id="rank"></div>
-        <h3 style="margin-top:16px">📅 Disaster events per year</h3><div id="yearChart"></div></div>
+      <div class="card"><h3>🏚️ Top 5 assets fully destroyed <span class="sub">&gt;70% damaged</span></h3><div id="rank"></div></div>
       <div class="card"><h3>💡 Key messages</h3><div id="insights"></div></div>
     </div>
   </section>
@@ -138,7 +145,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;padding:20px}
     <div class="grid g6" id="eco1"></div>
     <div class="grid g6" id="eco2" style="margin-top:14px"></div>
     <div class="grid g2" style="margin-top:14px">
-      <div class="card"><h3>Loss &amp; damage by component <span class="sub">BDT million</span></h3><div id="ecoChart"></div></div>
+      <div class="card"><h3>Loss &amp; damage by sectors <span class="sub">BDT million · past 5 years</span></h3><div id="ecoChart"></div></div>
       <div class="card"><h3>🌀 Cyclones: house damage vs repair <span class="sub">average per event, BDT</span></h3><div id="cycChart"></div></div>
     </div>
     <div class="insight" id="ecoInsight" style="margin-top:14px"></div>
@@ -156,10 +163,16 @@ footer{color:var(--muted);font-size:11px;text-align:center;padding:20px}
 
   <!-- CORRELATION -->
   <section class="page" id="p-corr">
+    <div class="grid g4" id="supTiles"></div>
+    <div class="grid g2" style="margin:14px 0">
+      <div class="card"><h3>🤝 Average L&amp;D per household: support vs no support <span class="sub">BDT · past 5 years</span></h3><div id="supChart"></div></div>
+      <div class="card"><h3>💰 Total L&amp;D: support vs no support <span class="sub">BDT million · infrastructure + livelihood</span></h3><div id="supTotChart"></div>
+        <div class="legend"><span><i style="background:var(--north)"></i>Infrastructure</span><span><i style="background:var(--green)"></i>Livelihood</span></div></div>
+    </div>
     <div class="grid g3">
       <div class="card span2"><h3>🔗 What moves together? <span class="sub">Pearson r · hover a cell</span></h3><table class="heat" id="heat"></table>
         <div class="note">🟧 negative · ⬜ none · 🟦 positive &nbsp; ★ p&lt;0.05 &nbsp; ★★ p&lt;0.01 · correlation is not causation</div></div>
-      <div class="card"><h3>⚖️ Avg L&amp;D per household <span class="sub">BDT, group = yes</span></h3><div id="groupChart"></div></div>
+      <div class="card"><h3>⚖️ Avg L&amp;D per household <span class="sub">BDT, by group</span></h3><div id="groupChart"></div></div>
     </div>
     <div class="grid g4" id="corrTiles" style="margin-top:14px"></div>
   </section>
@@ -173,18 +186,7 @@ footer{color:var(--muted);font-size:11px;text-align:center;padding:20px}
       <div class="card"><h3>💳 Why households borrow <span class="sub">households</span></h3><div id="purposeChart"></div></div>
       <div class="card"><h3>♿ Women with disability <span class="sub">affected HHs, by type</span></h3><div id="disChart"></div></div>
     </div>
-    <p class="note" style="margin-top:10px">ⓘ The baseline has no question on women's illness after disasters or disease type; these are the closest proxies. A health module is recommended for the next round.</p>
-  </section>
-
-  <!-- GLOBAL -->
-  <section class="page" id="p-global">
-    <div class="grid g6" id="gl1"></div>
-    <div class="grid g2" style="margin-top:14px">
-      <div class="card"><h3>🌍 Global economic losses by hazard <span class="sub">US$ bn · EM-DAT</span></h3><div id="glChart"></div>
-        <div class="legend"><span><i style="background:var(--south)"></i>2024</span><span><i style="background:var(--all)"></i>2004–23 average</span></div></div>
-      <div class="card"><h3>🇧🇩 Bangladesh in the 2024 global top-10 <span class="sub">people affected, million</span></h3><div id="bdChart"></div></div>
-    </div>
-    <p class="note">Sources: CRED (2025) <i>2024 Disasters in Numbers</i>; Germanwatch CRI 2026 and IIED as cited by Friendship.</p>
+    <p class="note" style="margin-top:10px">ⓘ Women's illness after disasters is not asked in the baseline; these are the closest available indicators.</p>
   </section>
 
   <!-- ABOUT -->
@@ -207,17 +209,6 @@ const tip=$('tip');
 function showTip(e,h){tip.innerHTML=h;tip.style.opacity=1;const x=Math.min(e.clientX+14,innerWidth-270);tip.style.left=x+'px';tip.style.top=(e.clientY+14)+'px'}
 function hideTip(){tip.style.opacity=0}
 function el(tag,attrs,parent){const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const k in attrs)n.setAttribute(k,attrs[k]);if(parent)parent.appendChild(n);return n}
-
-/* ---------- header art ---------- */
-(function art(){const s=$('art');let h='<defs><linearGradient id="sea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2E86AB" stop-opacity=".55"/><stop offset="1" stop-color="#0F9D8A" stop-opacity=".9"/></linearGradient></defs>';
- const wave=(off,amp,f,ph,col,op)=>{let d='M0 150 ';for(let x=0;x<=700;x+=10)d+=`L${x} ${150-off-amp*Math.sin(x/f+ph)} `;return `<path d="${d} L700 150Z" fill="${col}" opacity="${op}"><animate attributeName="opacity" values="${op};${op*.75};${op}" dur="${6+ph}s" repeatCount="indefinite"/></path>`};
- h+=wave(46,5,40,3,'#E07A1F',.22)+wave(32,6,48,1,'#7FB7D6',.35)+wave(22,7,36,2,'#2E86AB',.6)+wave(10,5,30,0,'#0F9D8A',.75);
- [[200,70],[400,100],[600,60]].forEach(([cx,w])=>{h+=`<ellipse cx="${cx}" cy="${150-24}" rx="${w}" ry="7" fill="#E9D8A6" opacity=".95"/>`});
- [185,207,380,402,424,590].forEach(x=>{h+=`<rect x="${x}" y="${150-40}" width="14" height="12" fill="#F4F1DE"/><path d="M${x-2} ${150-40}L${x+7} ${150-49}L${x+16} ${150-40}Z" fill="#B5523B"/>`});
- let sp='';for(let t=0;t<18.8;t+=.08){const r=2+t*2.4;sp+=`${t?'L':'M'}${590+r*Math.cos(t)} ${48+r*Math.sin(t)*.55} `}
- h+=`<g opacity=".35"><path d="${sp}" fill="none" stroke="#fff" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 590 48" to="360 590 48" dur="30s" repeatCount="indefinite"/></path></g>`;
- for(let i=0;i<60;i++){const x=Math.random()*700,y=Math.random()*90;h+=`<line x1="${x}" y1="${y}" x2="${x-3}" y2="${y+8}" stroke="#A9CCE3" stroke-width=".8" opacity=".35"><animate attributeName="y1" values="${y};${y+40}" dur="${1.5+Math.random()}s" repeatCount="indefinite"/><animate attributeName="y2" values="${y+8};${y+48}" dur="${1.5+Math.random()}s" repeatCount="indefinite"/></line>`}
- s.innerHTML=h})();
 
 /* ---------- charts ---------- */
 function barChart(host,o){ // o: cats, series[{name,color,values}], stacked, horizontal, fmt, onClick, h, active
@@ -261,28 +252,33 @@ function donut(host,labels,values,colors){host.innerHTML='';const W=300,H=260,cx
  el('text',{x:cx,y:cy+15,'text-anchor':'middle','font-size':10,fill:C.muted},svg).textContent='BDT total';
  labels.forEach((l,i)=>{const x=10+(i%3)*98,y=232+Math.floor(i/3)*16;el('rect',{x,y:y-8,width:9,height:9,rx:2,fill:colors[i]},svg);el('text',{x:x+13,y,'font-size':10,fill:C.navy},svg).textContent=l});
 }
-function mapChart(host){host.innerHTML='';const W=360,H=400;const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,class:'chart'},host);
- const la=[21.6,26.0],lo=[88.6,90.8];const px=x=>30+(x-lo[0])/(lo[1]-lo[0])*(W-80),py=y=>H-30-(y-la[0])/(la[1]-la[0])*(H-70);
- for(let i=0;i<9;i++){el('line',{x1:0,x2:W,y1:i*50,y2:i*50,stroke:'#fff','stroke-opacity':.04},svg);el('line',{y1:0,y2:H,x1:i*45,x2:i*45,stroke:'#fff','stroke-opacity':.04},svg)}
- el('text',{x:W/2,y:H-8,'text-anchor':'middle','font-size':11,'font-style':'italic',fill:'#7FB7D6'},svg).textContent='Bay of Bengal';
+const BD=[[[92.577,21.977],[92.595,21.886],[92.577,21.734],[92.591,21.471],[92.642,21.309],[92.634,21.282],[92.57,21.248],[92.523,21.361],[92.39,21.376],[92.368,21.435],[92.321,21.462],[92.285,21.418],[92.235,21.417],[92.177,21.3],[92.174,21.175],[92.264,21.06],[92.26,20.941],[92.307,20.853],[92.336,20.757],[92.325,20.738],[92.21,20.93],[92.188,21.006],[92.134,21.047],[92.051,21.155],[92.051,21.28],[91.954,21.442],[91.983,21.489],[92.019,21.493],[91.99,21.562],[92.022,21.599],[92.037,21.668],[92.026,21.712],[92.012,21.665],[91.983,21.65],[91.983,21.706],[91.972,21.689],[91.954,21.702],[91.954,21.738],[91.99,21.76],[91.961,21.765],[91.99,21.795],[91.9,21.79],[91.95,21.885],[91.914,21.863],[91.857,22.109],[91.853,22.143],[91.868,22.138],[91.853,22.148],[91.839,22.118],[91.814,22.18],[91.839,22.263],[91.81,22.307],[91.875,22.335],[91.907,22.425],[91.889,22.425],[91.878,22.364],[91.792,22.302],[91.828,22.268],[91.81,22.236],[91.788,22.237],[91.745,22.411],[91.677,22.535],[91.547,22.7],[91.461,22.763],[91.49,22.904],[91.461,22.833],[91.418,22.8],[91.414,22.754],[91.346,22.774],[91.367,22.761],[91.36,22.744],[91.292,22.739],[91.331,22.72],[91.317,22.697],[91.245,22.698],[91.245,22.72],[91.184,22.727],[91.198,22.698],[91.169,22.685],[91.252,22.661],[91.263,22.641],[91.241,22.575],[91.202,22.543],[91.126,22.528],[91.09,22.545],[91.018,22.683],[91.004,22.678],[91.04,22.589],[90.942,22.585],[90.878,22.683],[90.834,22.685],[90.82,22.727],[90.795,22.741],[90.719,22.94],[90.629,23.065],[90.64,23.188],[90.669,23.267],[90.651,23.3],[90.662,23.321],[90.629,23.321],[90.611,23.342],[90.6,23.45],[90.633,23.487],[90.716,23.499],[90.716,23.536],[90.68,23.555],[90.701,23.529],[90.694,23.507],[90.665,23.517],[90.608,23.49],[90.593,23.563],[90.633,23.597],[90.611,23.607],[90.557,23.59],[90.546,23.563],[90.478,23.583],[90.514,23.551],[90.575,23.539],[90.579,23.45],[90.554,23.386],[90.323,23.433],[90.251,23.467],[90.258,23.445],[90.406,23.36],[90.428,23.327],[90.568,23.294],[90.608,23.247],[90.615,23.195],[90.593,23.22],[90.6,23.117],[90.572,23.082],[90.554,23.078],[90.557,23.11],[90.449,23.056],[90.536,22.888],[90.478,22.884],[90.435,22.801],[90.41,22.795],[90.42,22.768],[90.374,22.761],[90.478,22.736],[90.51,22.646],[90.51,22.604],[90.453,22.565],[90.442,22.494],[90.471,22.575],[90.507,22.587],[90.561,22.562],[90.608,22.465],[90.586,22.474],[90.586,22.45],[90.618,22.356],[90.582,22.237],[90.557,22.204],[90.5,22.177],[90.438,22.075],[90.388,22.102],[90.42,22.199],[90.41,22.285],[90.395,22.288],[90.388,22.224],[90.413,22.178],[90.309,21.984],[90.284,21.871],[90.219,21.814],[90.165,21.803],[90.093,21.83],[90.125,21.932],[90.068,21.854],[90.024,21.863],[90.046,21.966],[90.158,22.107],[90.215,22.123],[90.237,22.199],[90.204,22.133],[90.147,22.111],[90.053,21.989],[89.995,22.001],[90.035,22.06],[90.042,22.131],[90.078,22.165],[90.039,22.138],[90.024,22.089],[89.981,22.045],[89.985,21.999],[89.967,21.974],[89.934,21.998],[89.916,22.05],[89.902,22.202],[89.877,22.275],[90.01,22.491],[89.92,22.391],[89.873,22.418],[89.88,22.342],[89.837,22.268],[89.862,22.21],[89.873,22.092],[89.848,22.07],[89.797,22.069],[89.848,22.033],[89.844,21.982],[89.887,21.9],[89.88,21.885],[89.787,21.829],[89.765,21.847],[89.707,21.83],[89.661,21.849],[89.664,21.896],[89.646,21.925],[89.617,21.869],[89.7,21.785],[89.668,21.751],[89.596,21.76],[89.607,21.719],[89.589,21.7],[89.567,21.714],[89.527,21.814],[89.563,21.885],[89.571,22.031],[89.607,22.112],[89.567,22.204],[89.599,22.241],[89.625,22.335],[89.549,22.205],[89.578,22.146],[89.578,22.101],[89.553,21.994],[89.531,21.984],[89.538,22.089],[89.491,22.188],[89.495,22.254],[89.477,22.295],[89.477,22.102],[89.495,22.136],[89.513,22.092],[89.509,22.042],[89.488,22.031],[89.52,21.962],[89.513,21.91],[89.466,21.859],[89.466,21.782],[89.405,21.717],[89.369,21.743],[89.365,21.829],[89.387,21.901],[89.351,21.972],[89.355,21.893],[89.308,21.817],[89.283,21.822],[89.293,21.758],[89.272,21.699],[89.297,21.679],[89.229,21.645],[89.203,21.673],[89.221,21.709],[89.189,21.812],[89.153,21.787],[89.11,21.81],[89.081,21.898],[89.092,22.001],[89.056,22.065],[89.077,22.175],[89.009,22.286],[89.023,22.295],[88.991,22.388],[89.002,22.42],[88.969,22.528],[88.926,22.548],[88.955,22.585],[88.908,22.741],[88.937,22.783],[88.944,22.849],[88.894,22.879],[88.84,22.975],[88.851,23.075],[88.959,23.203],[88.822,23.239],[88.775,23.222],[88.696,23.252],[88.685,23.293],[88.771,23.489],[88.757,23.499],[88.721,23.468],[88.609,23.588],[88.57,23.592],[88.566,23.629],[88.541,23.639],[88.577,23.855],[88.653,23.87],[88.714,23.924],[88.703,23.995],[88.725,24.039],[88.678,24.071],[88.678,24.154],[88.746,24.215],[88.739,24.287],[88.66,24.338],[88.635,24.294],[88.476,24.316],[88.401,24.37],[88.109,24.502],[88.084,24.542],[88.084,24.595],[88.059,24.634],[88.023,24.645],[88.051,24.755],[88.077,24.762],[88.087,24.796],[88.141,24.845],[88.116,24.917],[88.203,24.946],[88.242,24.88],[88.321,24.875],[88.415,25.022],[88.44,25.189],[88.476,25.196],[88.559,25.17],[88.635,25.192],[88.786,25.16],[88.818,25.198],[88.923,25.167],[88.908,25.189],[88.926,25.192],[88.93,25.23],[88.984,25.275],[88.977,25.302],[88.901,25.304],[88.843,25.333],[88.8,25.395],[88.815,25.459],[88.771,25.501],[88.743,25.513],[88.743,25.495],[88.667,25.463],[88.595,25.495],[88.53,25.5],[88.476,25.562],[88.422,25.593],[88.419,25.653],[88.393,25.68],[88.26,25.789],[88.228,25.804],[88.127,25.775],[88.087,25.831],[88.073,25.908],[88.152,26.032],[88.141,26.091],[88.163,26.14],[88.221,26.18],[88.325,26.216],[88.336,26.282],[88.433,26.363],[88.498,26.352],[88.462,26.454],[88.354,26.484],[88.336,26.449],[88.314,26.466],[88.386,26.624],[88.411,26.545],[88.656,26.415],[88.667,26.368],[88.714,26.329],[88.645,26.277],[88.663,26.265],[88.746,26.292],[88.782,26.28],[88.825,26.226],[88.876,26.278],[88.948,26.233],[89.02,26.234],[89.041,26.248],[89.005,26.277],[89.009,26.297],[88.98,26.292],[88.966,26.329],[88.912,26.349],[88.89,26.386],[88.941,26.439],[89.045,26.381],[89.056,26.347],[89.103,26.327],[89.095,26.31],[89.07,26.314],[89.07,26.287],[89.121,26.146],[89.214,26.099],[89.236,26.059],[89.337,25.998],[89.38,26.015],[89.412,25.993],[89.491,25.998],[89.517,25.962],[89.542,25.959],[89.56,26.022],[89.61,26.072],[89.567,26.087],[89.603,26.121],[89.563,26.143],[89.585,26.168],[89.614,26.163],[89.614,26.219],[89.653,26.222],[89.657,26.16],[89.718,26.145],[89.751,26.084],[89.754,26.032],[89.79,25.988],[89.815,25.996],[89.83,25.979],[89.79,25.949],[89.833,25.932],[89.783,25.814],[89.833,25.635],[89.794,25.375],[89.819,25.285],[89.909,25.297],[90.129,25.211],[90.399,25.149],[90.622,25.172],[90.708,25.154],[90.755,25.167],[90.824,25.142],[91.234,25.203],[91.432,25.138],[91.565,25.16],[91.598,25.128],[91.637,25.123],[91.731,25.167],[92.033,25.182],[92.094,25.165],[92.123,25.137],[92.174,25.132],[92.235,25.084],[92.303,25.074],[92.476,24.937],[92.494,24.895],[92.476,24.863],[92.382,24.836],[92.289,24.892],[92.224,24.892],[92.235,24.777],[92.17,24.574],[92.105,24.495],[92.109,24.406],[92.062,24.372],[91.95,24.375],[91.972,24.316],[91.922,24.345],[91.9,24.338],[91.907,24.26],[91.878,24.157],[91.846,24.156],[91.814,24.183],[91.806,24.222],[91.734,24.235],[91.734,24.164],[91.702,24.142],[91.666,24.156],[91.63,24.215],[91.616,24.14],[91.583,24.097],[91.518,24.085],[91.364,24.1],[91.338,23.995],[91.274,23.988],[91.216,23.909],[91.227,23.826],[91.205,23.772],[91.14,23.74],[91.133,23.72],[91.176,23.671],[91.14,23.654],[91.14,23.612],[91.194,23.495],[91.23,23.462],[91.259,23.374],[91.288,23.355],[91.266,23.321],[91.313,23.1],[91.371,23.063],[91.356,23.224],[91.371,23.262],[91.396,23.262],[91.464,23.185],[91.522,22.996],[91.587,22.945],[91.616,22.979],[91.706,22.996],[91.792,23.08],[91.745,23.273],[91.817,23.401],[91.904,23.446],[91.94,23.495],[91.914,23.651],[91.922,23.723],[92.019,23.641],[92.044,23.646],[92.109,23.718],[92.152,23.732],[92.195,23.647],[92.22,23.708],[92.26,23.706],[92.253,23.609],[92.296,23.446],[92.35,23.354],[92.357,23.279],[92.328,23.171],[92.361,22.926],[92.426,22.871],[92.444,22.763],[92.498,22.695],[92.501,22.56],[92.577,22.168],[92.577,22.143],[92.537,22.129],[92.577,21.977]],[[91.936,21.76],[91.983,21.609],[91.972,21.523],[91.961,21.506],[91.896,21.506],[91.9,21.486],[91.878,21.481],[91.857,21.513],[91.871,21.548],[91.853,21.726],[91.871,21.754],[91.896,21.743],[91.889,21.685],[91.911,21.727],[91.9,21.775],[91.936,21.782],[91.936,21.76]],[[89.117,21.782],[89.146,21.739],[89.131,21.722],[89.052,21.793],[89.052,21.89],[89.045,21.917],[89.067,21.91],[89.092,21.793],[89.117,21.782]],[[91.889,21.866],[91.832,21.726],[91.832,21.876],[91.868,21.932],[91.889,21.866]],[[90.593,21.986],[90.608,21.939],[90.582,21.913],[90.564,21.918],[90.521,21.861],[90.503,21.869],[90.532,21.876],[90.51,21.898],[90.525,21.944],[90.593,21.986]],[[90.334,21.939],[90.37,21.994],[90.395,22.001],[90.341,21.861],[90.32,21.846],[90.334,21.939]],[[90.435,22.042],[90.474,22.004],[90.478,21.945],[90.417,21.9],[90.395,21.939],[90.417,22.038],[90.435,22.042]],[[90.543,22.062],[90.485,22.035],[90.492,22.08],[90.615,22.165],[90.593,22.102],[90.586,22.131],[90.561,22.023],[90.521,21.994],[90.503,22.011],[90.543,22.062]],[[90.942,22.205],[90.957,22.199],[90.95,22.121],[90.921,22.133],[90.942,22.205]],[[90.953,22.227],[90.939,22.248],[90.975,22.364],[90.993,22.302],[90.953,22.227]],[[91.148,22.357],[91.173,22.32],[91.187,22.227],[91.14,22.146],[91.065,22.091],[91.022,22.096],[91.004,22.118],[91.054,22.175],[91.076,22.389],[91.148,22.357]],[[90.618,22.425],[90.6,22.449],[90.633,22.432],[90.651,22.376],[90.64,22.308],[90.618,22.425]],[[91.158,22.504],[91.202,22.514],[91.212,22.496],[91.158,22.45],[91.115,22.462],[91.122,22.489],[91.158,22.504]],[[91.468,22.587],[91.558,22.479],[91.565,22.435],[91.554,22.401],[91.475,22.413],[91.425,22.524],[91.446,22.577],[91.468,22.587]],[[90.791,22.496],[90.856,22.435],[90.827,22.153],[90.773,22.075],[90.759,22.062],[90.752,22.075],[90.69,22.008],[90.647,21.994],[90.64,22.016],[90.683,22.102],[90.611,22.025],[90.608,22.072],[90.633,22.123],[90.622,22.145],[90.683,22.302],[90.683,22.445],[90.658,22.524],[90.633,22.562],[90.557,22.602],[90.579,22.758],[90.651,22.788],[90.683,22.695],[90.748,22.597],[90.766,22.518],[90.791,22.496]],[[90.644,22.849],[90.68,22.808],[90.59,22.813],[90.532,22.769],[90.521,22.712],[90.482,22.759],[90.456,22.768],[90.474,22.866],[90.593,22.882],[90.644,22.849]],[[90.669,22.953],[90.633,22.953],[90.669,22.918],[90.626,22.925],[90.586,22.96],[90.525,22.953],[90.507,22.975],[90.561,23.033],[90.586,23.034],[90.669,22.953]],[[90.51,23.068],[90.514,23.051],[90.471,23.007],[90.456,23.063],[90.51,23.068]],[[90.525,23.321],[90.467,23.332],[90.428,23.376],[90.456,23.386],[90.579,23.323],[90.586,23.301],[90.55,23.327],[90.525,23.321]]];
+function mapChart(host){host.innerHTML='';const W=360,H=430;const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,class:'chart'},host);
+ const lo=[87.9,92.75],la=[20.55,26.75];const kx=Math.cos(24*Math.PI/180);const sc=Math.min((W-20)/((lo[1]-lo[0])*kx),(H-30)/(la[1]-la[0]));
+ const ox=(W-(lo[1]-lo[0])*kx*sc)/2;const px=x=>ox+(x-lo[0])*kx*sc,py=y=>12+(la[1]-y)*sc;
+ el('rect',{x:0,y:0,width:W,height:H,fill:'#0E1A2B'},svg);
+ for(let i=0;i<10;i++){el('line',{x1:0,x2:W,y1:i*48,y2:i*48,stroke:'#fff','stroke-opacity':.04},svg);el('line',{y1:0,y2:H,x1:i*40,x2:i*40,stroke:'#fff','stroke-opacity':.04},svg)}
+ BD.forEach(r=>{el('path',{d:'M'+r.map(p=>`${px(p[0]).toFixed(1)} ${py(p[1]).toFixed(1)}`).join('L')+'Z',fill:'#1F3654',stroke:'#7FB7D6','stroke-width':.8,'stroke-opacity':.8},svg)});
+ el('text',{x:px(90.3),y:py(20.85),'text-anchor':'middle','font-size':11,'font-style':'italic',fill:'#7FB7D6'},svg).textContent='Bay of Bengal';
+ el('text',{x:px(90.25),y:py(24.05),'text-anchor':'middle','font-size':12,'font-weight':700,fill:'#9fb3c8','letter-spacing':'3'},svg).textContent='BANGLADESH';
+ const dh=el('circle',{cx:px(90.41),cy:py(23.81),r:3,fill:'#fff'},svg);el('text',{x:px(90.41)+6,y:py(23.81)+4,'font-size':10,fill:'#C9D3E0'},svg).textContent='Dhaka';
  const cur=getR();const md=cur&&!cur.suppressed?cur.by_district:null;
  const order=[...M.lists.districts.Northern,...M.lists.districts.Southern];
- const lbl={Khulna:[-8,-26,'end'],Satkhira:[-10,22,'end'],Bagerhat:[16,-12,'start'],Patuakhali:[16,10,'start'],Kurigram:[18,-4,'start'],Gaibandha:[18,8,'start']};
+ const lbl={Khulna:[-12,-24,'end'],Satkhira:[-12,20,'end'],Bagerhat:[14,-16,'start'],Patuakhali:[14,14,'start'],Kurigram:[16,-6,'start'],Gaibandha:[-14,10,'end']};
  order.forEach((d,i)=>{const c=M.centroids[d];if(!c)return;const n=M.district_n[d]||0;const reg=M.lists.districts.Northern.includes(d)?'N':'S';
-  const x=px(c[1]),y=py(c[0]),r=6+Math.sqrt(n)*.75;const col=reg==='N'?C.north:C.south;const sel=S.district===d;
+  const x=px(c[1]),y=py(c[0]),r=5+Math.sqrt(n)*.45;const col=reg==='N'?C.north:C.south;const sel=S.district===d;
   const g=el('g',{style:'cursor:pointer'},svg);
-  el('circle',{cx:x,cy:y,r:r*1.9,fill:col,opacity:.12},g);
-  const cc=el('circle',{cx:x,cy:y,r,fill:col,opacity:sel?1:.85,stroke:sel?'#fff':'none','stroke-width':2},g);
-  el('animate',{attributeName:'r',values:`${r};${r*1.08};${r}`,dur:'3s',repeatCount:'indefinite'},cc);
-  const [dx,dy,anc]=lbl[d]||[16,0,'start'];
-  const t=el('text',{x:x+dx,y:y+dy,'text-anchor':anc,'font-size':11,'font-weight':700,fill:'#fff'},g);t.textContent=d;
-  const v=md?md[S.measure==='Count'?'Count':S.measure][i]:null;
-  const t2=el('text',{x:x+dx,y:y+dy+13,'text-anchor':anc,'font-size':10,fill:'#C9D3E0'},g);t2.textContent=`${n.toLocaleString()} HHs`+(v!=null?` · ${measureFmt(v)}`:'');
+  el('circle',{cx:x,cy:y,r:r*2,fill:col,opacity:.18},g);
+  const cc=el('circle',{cx:x,cy:y,r,fill:col,opacity:sel?1:.9,stroke:'#fff','stroke-width':sel?2.5:1},g);
+  el('animate',{attributeName:'r',values:`${r};${r*1.12};${r}`,dur:'3s',repeatCount:'indefinite'},cc);
+  const [dx,dy,anc]=lbl[d]||[14,0,'start'];
+  el('text',{x:x+dx,y:y+dy,'text-anchor':anc,'font-size':11,'font-weight':700,fill:'#fff'},g).textContent=d;
+  const v=md?md[S.measure][i]:null;
+  el('text',{x:x+dx,y:y+dy+12,'text-anchor':anc,'font-size':9.5,fill:'#C9D3E0'},g).textContent=`${n.toLocaleString()} HHs`+(v!=null?` · ${measureFmt(v)}`:'');
   g.addEventListener('click',()=>{S.district=S.district===d?'All':d;syncControls();render()});
-  g.addEventListener('mousemove',e=>showTip(e,`<b>${d}</b><br>${n.toLocaleString()} households surveyed${v!=null?`<br>${MEAS[S.measure].label}: ${measureFmt(v)}`:''}<br><i>click to filter</i>`));g.addEventListener('mouseleave',hideTip)});
- el('text',{x:12,y:22,'font-size':10,fill:'#9fb3c8'},svg).textContent='bubble size = households surveyed';
+  g.addEventListener('mousemove',e=>showTip(e,`<b>${d}</b> (${reg==='N'?'North · char':'South · coast'})<br>${n.toLocaleString()} households surveyed${v!=null?`<br>${MEAS[S.measure].label}: ${measureFmt(v)}`:''}<br><i>click to filter</i>`));g.addEventListener('mouseleave',hideTip)});
+ [[C.north,'North · char lands'],[C.south,'South · coast']].forEach(([c,t],i)=>{el('circle',{cx:16,cy:H-36+i*16,r:5,fill:c},svg);el('text',{x:26,y:H-32+i*16,'font-size':10,fill:'#C9D3E0'},svg).textContent=t});
 }
-
 /* ---------- data access ---------- */
 const MEAS={Total:{label:'Total L&D',unit:'BDT mn'},Infra:{label:'Infrastructure L&D',unit:'BDT mn'},Livelihood:{label:'Livelihood L&D',unit:'BDT mn'},Deaths:{label:'Human deaths',unit:''},Injured:{label:'Injuries',unit:''},LivDied:{label:'Livestock lost',unit:''},PouDied:{label:'Poultry lost',unit:''},Count:{label:'Households affected',unit:''}};
 const measureFmt=v=>['Total','Infra','Livelihood'].includes(S.measure)?v.toFixed(1)+'m':fmtN(v);
@@ -304,21 +300,21 @@ function tiles(id,list){$(id).innerHTML=list.map(tile).join('');countUp($(id))}
 /* ---------- pages ---------- */
 function rOverview(){
  tiles('kpi1',[
-  {ic:'👥',bg:'#E6F0F6',acc:C.all,lab:'Households affected',f:o=>o.pct_affected,fmt:'p',sub:o=>o&&!o.suppressed?`${fmtN(o.affected)} of ${fmtN(o.n)} hit`:''},
-  {ic:'💰',bg:'#E7F6F3',acc:C.teal,lab:'Total loss & damage',f:o=>o.Total,sub:o=>o&&!o.suppressed?`BDT · US$ ${fmtC(o.Total/M.params.fx)}`:''},
-  {ic:'🏠',bg:'#E6F0F6',acc:C.north,lab:'Infrastructure',f:o=>o.Infra},
-  {ic:'🌾',bg:'#FFF4D6',acc:C.green,lab:'Livelihood',f:o=>o.Livelihood},
-  {ic:'📊',bg:'#EEF0F4',acc:C.all,lab:'Per affected HH',f:o=>o.avg_affected,sub:o=>o&&!o.suppressed?`${(o.per_hh_year/M.params.iied).toFixed(1)}x IIED yearly benchmark`:''},
-  {ic:'🏚️',bg:'#FDF1E6',acc:C.south,lab:'Asset fully damaged',f:o=>o.any_full,fmt:'p'}]);
+  {ic:'👥',bg:'#E6F0F6',acc:C.all,lab:'Households affected',f:o=>o.pct_affected,fmt:'p',sub:o=>o&&!o.suppressed?`${fmtN(o.affected)} of ${fmtN(o.n)} households affected`:''},
+  {ic:'💰',bg:'#E7F6F3',acc:C.teal,lab:'Total loss & damage (past 5 years)',f:o=>o.Total,sub:o=>o&&!o.suppressed?`BDT · US$ ${fmtC(o.Total/M.params.fx)}`:''},
+  {ic:'🏠',bg:'#E6F0F6',acc:C.north,lab:'Infrastructure (past 5 years)',f:o=>o.Infra},
+  {ic:'🌾',bg:'#FFF4D6',acc:C.green,lab:'Livelihood (past 5 years)',f:o=>o.Livelihood},
+  {ic:'📊',bg:'#EEF0F4',acc:C.all,lab:'Average per affected household',f:o=>o.avg_affected,sub:()=>'BDT · past 5 years'},
+  {ic:'🏚️',bg:'#FDF1E6',acc:C.south,lab:'Total households: any asset fully damaged',f:o=>o.any_full_n,fmt:'n',sub:o=>o&&!o.suppressed?`${fmtP(o.any_full)} of households`:''}]);
  tiles('kpi2',[
   {ic:'🕯️',bg:'#F1EEF6',acc:C.purple,lab:'Human deaths',f:o=>o.Deaths,fmt:'n'},{ic:'🩹',bg:'#FDECEC',acc:C.red,lab:'Injuries',f:o=>o.Injured,fmt:'n'},
   {ic:'🐄',bg:'#EAF5EA',acc:C.green,lab:'Livestock lost',f:o=>o.LivDied,fmt:'n'},{ic:'🐔',bg:'#FFF1E0',acc:C.south,lab:'Poultry lost',f:o=>o.PouDied,fmt:'n'},
-  {ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Women in hit HHs',f:o=>o.women.in_affected,fmt:'n'},{ic:'💳',bg:'#EEF0F4',acc:C.all,lab:'HHs in debt',f:o=>o.debt.pct,fmt:'p'}]);
+  {ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Women in affected households',f:o=>o.women.in_affected,fmt:'n'},{ic:'💳',bg:'#EEF0F4',acc:C.all,lab:'HHs in debt',f:o=>o.debt.pct,fmt:'p'}]);
  // main chart
  const m=S.measure,v=S.view;const money=['Total','Infra','Livelihood'].includes(m);
- $('mainTitle').textContent=`${MEAS[m].label}${money?' (BDT mn)':''} by ${v.toLowerCase()}${m==='Count'&&v!=='District'?' · events':''}`;
- const cats=v==='District'?[...M.lists.districts.Northern,...M.lists.districts.Southern]:v==='Disaster type'?M.lists.types:M.lists.years.map(String);
- const src=r=>{const o=getR(r);if(!o||o.suppressed)return cats.map(()=>0);const b=v==='District'?o.by_district:v==='Disaster type'?o.by_type:o.by_year;return b[m]};
+ $('mainTitle').textContent=`${MEAS[m].label}${money?' (BDT mn)':''} by ${v.toLowerCase()} · past 5 years${m==='Count'&&v!=='District'?' · events':''}`;
+ const cats=v==='District'?[...M.lists.districts.Northern,...M.lists.districts.Southern]:M.lists.types;
+ const src=r=>{const o=getR(r);if(!o||o.suppressed)return cats.map(()=>0);const b=v==='District'?o.by_district:o.by_type;return b[m]};
  barChart($('mainChart'),{cats,series:[{name:'North',color:C.north,values:src('N')},{name:'South',color:C.south,values:src('S')}],stacked:true,h:250,
   fmt:money?(x=>x.toFixed(x>=10?0:1)+'m'):fmtC,dim:j=>S.region!=='A'&&(j===0?S.region!=='N':S.region!=='S'),active:S.district,
   onClick:v==='District'?(c=>{S.district=S.district===c?'All':c;syncControls();render()}):v==='Disaster type'?(c=>{S.type=S.type===c?'All':c;syncControls();render()}):null});
@@ -328,13 +324,12 @@ function rOverview(){
  // ranking
  if(o&&!o.suppressed){const arr=o.assets.map((p,i)=>[M.lists.assets[i],p]).sort((a,b)=>b[1]-a[1]).slice(0,5);const mx=arr[0][1]||1;
   $('rank').innerHTML=arr.map(([a,p],i)=>`<div class="rank"><span>${['🥇','🥈','🥉','4.','5.'][i]} ${a}</span><div class="track"><div class="fill growx" style="width:${p/mx*100}%;animation-delay:${i*80}ms"></div></div><b>${fmtP(p)}</b></div>`).join('')}else $('rank').innerHTML='<p class="note">–</p>';
- barChart($('yearChart'),{cats:M.lists.years.map(String),series:[{name:'North',color:C.north,values:(getR('N').by_year||{Count:[]}).Count||[]},{name:'South',color:C.south,values:(getR('S').by_year||{Count:[]}).Count||[]}],h:190,fmt:fmtN,dim:j=>S.region!=='A'&&(j===0?S.region!=='N':S.region!=='S')});
  // insights
  const N=getR('N'),Sx=getR('S'),A=getR('A');const ok=x=>x&&!x.suppressed;let ins=[];
  if(ok(N)&&ok(Sx))ins.push(`🏠 An affected household lost <b>BDT ${fmtC(N.avg_affected)}</b> in the North vs <b>BDT ${fmtC(Sx.avg_affected)}</b> in the South.`);
  if(ok(N)&&ok(Sx)&&N.Total&&Sx.Total)ins.push(`🌾 Livelihood is <b>${fmtP(N.Livelihood/N.Total)}</b> of losses in the North but <b>${fmtP(Sx.Livelihood/Sx.Total)}</b> in the South.`);
  if(ok(A))ins.push(`🕯️ <b>${fmtN(A.Deaths)}</b> deaths, <b>${fmtN(A.Injured)}</b> injuries and <b>${fmtN(A.LivDied+A.PouDied)}</b> animals lost.`);
- if(ok(A))ins.push(`⚖️ Yearly L&D per household is <b>${(A.per_hh_year/M.params.iied).toFixed(1)}x</b> the IIED national estimate of BDT ${M.params.iied.toLocaleString()}.`);
+ if(ok(A))ins.push(`🤝 Households with support lost on average <b>BDT ${fmtC(A.support.yes.avg)}</b>; those without support lost <b>BDT ${fmtC(A.support.no.avg)}</b>.`);
  $('insights').innerHTML=ins.map(t=>`<div class="insight" style="margin-bottom:8px">${t}</div>`).join('')||'<p class="note">–</p>';
 }
 function rEconomic(){
@@ -342,10 +337,10 @@ function rEconomic(){
  tiles('eco1',comp.map(([ic,bg,acc,lab,k])=>({ic,bg,acc,lab,f:o=>o[k]})));
  const rg=(k)=>o=>o.range[k][1];
  tiles('eco2',[{ic:'🔨',bg:'#FDF1E6',acc:C.north,lab:'Infrastructure total',f:o=>o.Infra},{ic:'🌾',bg:'#FFF4D6',acc:C.green,lab:'Livelihood total',f:o=>o.Livelihood},
-  {ic:'↕️',acc:C.north,lab:'Highest infra loss / HH',f:rg('Infra'),sub:o=>o&&!o.suppressed?`lowest BDT ${fmtN(o.range.Infra[0])}`:''},
-  {ic:'↕️',acc:C.green,lab:'Highest livelihood loss / HH',f:rg('Livelihood'),sub:o=>o&&!o.suppressed?`lowest BDT ${fmtN(o.range.Livelihood[0])}`:''},
-  {ic:'↕️',acc:C.teal,lab:'Highest total loss / HH',f:rg('Total'),sub:o=>o&&!o.suppressed?`lowest BDT ${fmtN(o.range.Total[0])}`:''},
-  {ic:'🏚️',acc:C.south,lab:'HHs with house damage',f:o=>o.hh_with.Infra,fmt:'n'}]);
+  {ic:'↕️',acc:C.north,lab:'Highest infrastructure loss / household',f:rg('Infra'),sub:o=>o&&!o.suppressed?`lowest BDT ${fmtN(o.range.Infra[0])}`:''},
+  {ic:'↕️',acc:C.green,lab:'Highest livelihood loss / household',f:rg('Livelihood'),sub:o=>o&&!o.suppressed?`lowest BDT ${fmtN(o.range.Livelihood[0])}`:''},
+  {ic:'↕️',acc:C.teal,lab:'Highest total loss / household',f:rg('Total'),sub:o=>o&&!o.suppressed?`lowest BDT ${fmtN(o.range.Total[0])}`:''},
+  {ic:'🏚️',acc:C.south,lab:'Total number of households damaged',f:o=>o.hh_with.Infra,fmt:'n'}]);
  const keys=comp.map(c=>c[4]);const g=r=>{const o=getR(r);return o&&!o.suppressed?keys.map(k=>o[k]/1e6):keys.map(()=>0)};
  barChart($('ecoChart'),{cats:comp.map(c=>c[3]),series:[{name:'North',color:C.north,values:g('N')},{name:'South',color:C.south,values:g('S')}],labels:true,fmt:x=>x.toFixed(1),h:260});
  const cy=r=>{const o=getR(r);return o&&!o.suppressed?o.cyclone:[0,0,0]};
@@ -356,75 +351,64 @@ function rPeople(){
  const o=getR();let top='–',tp=null;if(o&&!o.suppressed){const i=o.assets.indexOf(Math.max(...o.assets));top=M.lists.assets[i];tp=o.assets[i]}
  tiles('ppl1',[{ic:'🐄',bg:'#EAF5EA',acc:C.green,lab:'Livestock died',f:o=>o.LivDied,fmt:'n'},{ic:'🐔',bg:'#FFF1E0',acc:C.south,lab:'Poultry died',f:o=>o.PouDied,fmt:'n'},
   {ic:'🕯️',bg:'#F1EEF6',acc:C.purple,lab:'Human deaths',f:o=>o.Deaths,fmt:'n'},{ic:'🩹',bg:'#FDECEC',acc:C.red,lab:'Injuries',f:o=>o.Injured,fmt:'n'},
-  {ic:'🏚️',bg:'#FDF1E6',acc:C.south,lab:'Any asset fully damaged',f:o=>o.any_full,fmt:'p'},
+  {ic:'🏚️',bg:'#FDF1E6',acc:C.south,lab:'Total households: any asset fully damaged',f:o=>o.any_full_n,fmt:'n'},
   {ic:'🏠',bg:'#E6F0F6',acc:C.all,lab:'Most lost asset',f:()=>top,ns:false,sub:()=>tp!=null?`${fmtP(tp)} of households`:''}]);
  const as=r=>{const o=getR(r);return o&&!o.suppressed?o.assets:M.lists.assets.map(()=>0)};
  barChart($('assetChart'),{cats:M.lists.assets,series:[{name:'North',color:C.north,values:as('N')},{name:'South',color:C.south,values:as('S')}],horizontal:true,fmt:fmtP,h:380,lw:130,dim:j=>S.region!=='A'&&(j===0?S.region!=='N':S.region!=='S')});
- const opts=[['Deaths','🕯️ Deaths'],['Injured','🩹 Injuries'],['LivDied','🐄 Livestock'],['PouDied','🐔 Poultry'],['Count','📌 Events']];
+ const opts=[['Deaths','🕯️ Deaths'],['Injured','🩹 Injuries'],['LivDied','🐄 Livestock'],['PouDied','🐔 Poultry']];
  $('segPeople').innerHTML=opts.map(([k,l])=>`<button class="${S.ppl===k?'on':''}" data-k="${k}">${l}</button>`).join('');
  $('segPeople').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.ppl=b.dataset.k;rPeople()});
  const bt=r=>{const o=getR(r);return o&&!o.suppressed?o.by_type[S.ppl]:M.lists.types.map(()=>0)};
  barChart($('typeChart'),{cats:M.lists.types,series:[{name:'North',color:C.north,values:bt('N')},{name:'South',color:C.south,values:bt('S')}],fmt:fmtN,h:330,labels:true});
 }
-const CORRL=['Govt support ↔ L&D','Friendship support ↔ L&D','Other-NGO support ↔ L&D','No support ↔ L&D','Female-headed ↔ L&D','Female-headed ↔ support received','House damage ↔ repair cost (HH)','House damage ↔ repair cost (cyclone events)','House damage ↔ crop loss','House damage ↔ debt','Crop loss ↔ debt','Total L&D ↔ debt','Total L&D ↔ loan for house repair','Total L&D ↔ chronic disease','Total L&D ↔ women eat <3 meals','Women members ↔ chronic disease'];
+const CORRL=['Government support ↔ L&D','Friendship support ↔ L&D','No support ↔ L&D','Female-headed household ↔ L&D','Female-headed household ↔ support received','House damage ↔ repair cost (household)','House damage ↔ repair cost (cyclones)','House damage ↔ debt','Crop loss ↔ debt','Total L&D ↔ debt','Total L&D ↔ loan for house repair'];
 function heatCol(r){if(r==null)return '#F2F4F7';const a=Math.min(1,Math.abs(r)/.5);const c=r>=0?[46,134,171]:[224,122,31];return `rgba(${c[0]},${c[1]},${c[2]},${(.08+a*.85).toFixed(2)})`}
 function rCorr(){
+ tiles('supTiles',[{ic:'🤝',bg:'#E7F6F3',acc:C.teal,lab:'Households that received support',f:o=>o.support.yes.n,fmt:'n',sub:o=>o&&!o.suppressed?`avg L&D BDT ${fmtC(o.support.yes.avg)} per household`:''},
+  {ic:'🚫',bg:'#FDECEC',acc:C.red,lab:'Households with no support',f:o=>o.support.no.n,fmt:'n',sub:o=>o&&!o.suppressed?`avg L&D BDT ${fmtC(o.support.no.avg)} per household`:''},
+  {ic:'💰',bg:'#E7F6F3',acc:C.teal,lab:'Total L&D: supported households',f:o=>o.support.yes.total},
+  {ic:'💰',bg:'#FDECEC',acc:C.red,lab:'Total L&D: households with no support',f:o=>o.support.no.total}]);
+ const sv=r=>{const o=getR(r);return o&&!o.suppressed?[o.support.yes.avg,o.support.no.avg,o.support.gov.avg,o.support.fs.avg]:[0,0,0,0]};
+ barChart($('supChart'),{cats:['Received any support','No support','Government support','Friendship support'],series:[{name:'North',color:C.north,values:sv('N')},{name:'South',color:C.south,values:sv('S')}],h:260,fmt:fmtC,labels:true});
+ const A0=getR();const tv=A0&&!A0.suppressed?A0.support:null;
+ barChart($('supTotChart'),{cats:['Received support','No support'],series:[{name:'Infrastructure',color:C.north,values:tv?[tv.yes.infra/1e6,tv.no.infra/1e6]:[0,0]},{name:'Livelihood',color:C.green,values:tv?[tv.yes.liv/1e6,tv.no.liv/1e6]:[0,0]}],stacked:true,h:260,fmt:x=>x.toFixed(1)});
  const regs=[['N','North',C.north],['S','South',C.south],['A','All',C.all]];
  let h=`<tr><th style="background:transparent"></th>${regs.map(r=>`<th style="background:${r[2]}">${r[1]}</th>`).join('')}</tr>`;
  CORRL.forEach((l,i)=>{h+=`<tr><td class="l">${l}</td>`;regs.forEach(([k])=>{const o=getR(k);const c=o&&!o.suppressed?o.corr[i]:null;const r=c?c[0]:null;const st=c?(c[1]<.01?' ★★':c[1]<.05?' ★':''):'';
   h+=`<td class="v" style="background:${heatCol(r)};color:${r!=null&&Math.abs(r)>.3?'#fff':C.navy}" data-t="${c?`<b>${l}</b><br>r = ${r.toFixed(3)} · p = ${c[1]<.0001?'<0.0001':c[1].toFixed(4)}<br>n = ${c[2].toLocaleString()}`:'not enough data'}">${r==null?'–':fmtR(r)+st}</td>`});h+='</tr>'});
  $('heat').innerHTML=h;$('heat').querySelectorAll('td.v').forEach(td=>{td.onmousemove=e=>showTip(e,td.dataset.t);td.onmouseleave=hideTip});
- const g=r=>{const o=getR(r);return o&&!o.suppressed?o.groups.map(x=>x[0]):[0,0,0,0,0]};
- barChart($('groupChart'),{cats:['Govt','Friendship','Other NGO','No support','Female-head'],series:[{name:'North',color:C.north,values:g('N')},{name:'South',color:C.south,values:g('S')}],h:300,fmt:fmtC});
+ const g=r=>{const o=getR(r);return o&&!o.suppressed?o.groups.map(x=>x[0]):[0,0,0,0]};
+ barChart($('groupChart'),{cats:['Government','Friendship','No support','Female-headed'],series:[{name:'North',color:C.north,values:g('N')},{name:'South',color:C.south,values:g('S')}],h:300,fmt:fmtC});
  const A=getR('A');const rr=i=>A&&!A.suppressed&&A.corr[i]?A.corr[i][0]:null;const words=r=>r==null?'':Math.abs(r)<.1?'no real link':(Math.abs(r)<.3?'weak ':Math.abs(r)<.5?'moderate ':'strong ')+(r>0?'positive':'negative');
- tiles('corrTiles',[{ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Female-headed: got support',f:o=>o.fhh.support,fmt:'p',sub:o=>o&&!o.suppressed?`male-headed: ${fmtP(o.fhh.support_m)}`:''},
+ tiles('corrTiles',[{ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Female-headed: received support',f:o=>o.fhh.support,fmt:'p',sub:o=>o&&!o.suppressed?`male-headed: ${fmtP(o.fhh.support_m)}`:''},
   {ic:'⚖️',acc:C.pink,lab:'Female-headed: avg L&D',f:o=>o.fhh.avg,sub:o=>o&&!o.suppressed?`male-headed: BDT ${fmtC(o.fhh.avg_m)}`:''},
-  {ic:'🔨',bg:'#FDF1E6',acc:C.north,lab:'House damage ↔ repair',f:o=>o.corr[6]?o.corr[6][0]:null,fmt:'r',sub:()=>words(rr(6))},
+  {ic:'🔨',bg:'#FDF1E6',acc:C.north,lab:'House damage ↔ repair',f:o=>o.corr[5]?o.corr[5][0]:null,fmt:'r',sub:()=>words(rr(5))},
   {ic:'🤝',bg:'#E7F6F3',acc:C.teal,lab:'Friendship support ↔ L&D',f:o=>o.corr[1]?o.corr[1][0]:null,fmt:'r',sub:()=>words(rr(1))}]);
 }
 function rWomen(){
- tiles('w1',[{ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Women in affected HHs',f:o=>o.women.in_affected,fmt:'n'},{ic:'♿',bg:'#E6F0F6',acc:C.pink,lab:'Women with disability',f:o=>o.women.disabled,fmt:'n'},
+ tiles('w1',[{ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Women in affected households',f:o=>o.women.in_affected,fmt:'n'},{ic:'♿',bg:'#E6F0F6',acc:C.pink,lab:'Women with disability',f:o=>o.women.disabled,fmt:'n'},
   {ic:'💍',bg:'#F7E9F2',acc:C.pink,lab:'Child marriage: climate',f:o=>o.women.cm_climate,fmt:'n',hint:'Women/girls married before 18 where climate income loss or displacement was a cause'},
   {ic:'🏥',bg:'#FDECEC',acc:C.red,lab:'Chronic disease in HH',f:o=>o.health[0],fmt:'p'},{ic:'🦟',bg:'#EAF5EA',acc:C.green,lab:'Mosquito disease',f:o=>o.health[1],fmt:'p'},{ic:'🍚',bg:'#FFF4D6',acc:C.south,lab:'Women <3 meals/day',f:o=>o.health[4],fmt:'p'}]);
  tiles('w2',[{ic:'💳',acc:C.all,lab:'HHs in debt',f:o=>o.debt.pct,fmt:'p'},{ic:'🏦',acc:C.all,lab:'Avg debt / indebted HH',f:o=>o.debt.avg},
-  {ic:'🔨',bg:'#FDF1E6',acc:C.south,lab:'Loan: repair damaged house',f:o=>o.debt.loan_repair_damaged,fmt:'n'},{ic:'🍚',bg:'#FFF4D6',acc:C.south,lab:'Hit HHs borrowing for food',f:o=>o.debt.food_affected,fmt:'n'},
-  {ic:'💊',bg:'#FDECEC',acc:C.red,lab:'Hit HHs borrowing for care',f:o=>o.debt.care_affected,fmt:'n'},{ic:'💰',bg:'#FDECEC',acc:C.red,lab:'Mahajan (high interest)',f:o=>o.debt.mahajan,fmt:'n'}]);
+  {ic:'🔨',bg:'#FDF1E6',acc:C.south,lab:'Loan to repair damaged house',f:o=>o.debt.loan_repair_damaged,fmt:'n'},{ic:'🍚',bg:'#FFF4D6',acc:C.south,lab:'Households borrowing money for food',f:o=>o.debt.food_affected,fmt:'n'},
+  {ic:'💊',bg:'#FDECEC',acc:C.red,lab:'Households borrowing for medical treatment',f:o=>o.debt.care_affected,fmt:'n'},{ic:'💰',bg:'#FDECEC',acc:C.red,lab:'Mahajan (Money Lender)',f:o=>o.debt.mahajan,fmt:'n'}]);
  const pick=(r,f,n)=>{const o=getR(r);return o&&!o.suppressed?f(o):Array(n).fill(0)};
- barChart($('healthChart'),{cats:['Chronic disease','Mosquito disease','Water contamination','Latrine overflow','Women <3 meals','Borrowed for care'],series:[{name:'North',color:C.north,values:pick('N',o=>o.health,6)},{name:'South',color:C.south,values:pick('S',o=>o.health,6)}],horizontal:true,fmt:fmtP,h:300,lw:120});
+ barChart($('healthChart'),{cats:['Chronic disease','Mosquito disease','Water contamination','Latrine overflow','Women <3 meals','Borrowed for medical treatment'],series:[{name:'North',color:C.north,values:pick('N',o=>o.health,6)},{name:'South',color:C.south,values:pick('S',o=>o.health,6)}],horizontal:true,fmt:fmtP,h:300,lw:120});
  barChart($('purposeChart'),{cats:M.lists.purpose,series:[{name:'North',color:C.north,values:pick('N',o=>o.debt.purpose,8)},{name:'South',color:C.south,values:pick('S',o=>o.debt.purpose,8)}],horizontal:true,fmt:fmtN,h:300,lw:120});
  barChart($('disChart'),{cats:M.lists.dis_types,series:[{name:'North',color:C.north,values:pick('N',o=>o.women.dis_types,6)},{name:'South',color:C.south,values:pick('S',o=>o.women.dis_types,6)}],horizontal:true,fmt:fmtN,h:300,lw:110,labels:true});
 }
-function rGlobal(){
- const A=getR('A');const x=A&&!A.suppressed?A.per_hh_year/M.params.iied:null;
- const T=[['🌍','#E6F0F6',C.navy,'Disasters 2024','393','EM-DAT, worldwide'],['🕯️','#F1EEF6',C.purple,'Deaths 2024','16,753','2004–23 avg: 65,566'],['👥','#EEF0F4',C.all,'People affected','167.2m','2024'],
-  ['💰','#E7F6F3',C.teal,'Economic losses','$242bn','2024'],['🌊','#E6F0F6',C.north,'Bangladesh CRI rank','#13','Germanwatch 2026'],['⚖️','#FDF1E6',C.south,'Our HHs vs IIED',x!=null?x.toFixed(1)+'x':'–',`yearly L&D ÷ BDT ${M.params.iied.toLocaleString()}`]];
- $('gl1').innerHTML=T.map(([ic,bg,acc,lab,v,sub])=>`<div class="card tile" style="border-top-color:${acc}"><div class="ic" style="background:${bg}">${ic}</div><div class="lab">${lab}</div><div class="val">${v}</div><div class="ns"><span class="x">${sub}</span></div></div>`).join('');
- barChart($('glChart'),{cats:['Storm','Flood','Earthquake','Drought','Wildfire','Extreme temp.'],series:[{name:'2024',color:C.south,values:[172.6,32.8,18.1,13.3,4.8,0]},{name:'2004–23 avg',color:C.all,values:[102.9,42.8,43.5,11,6.4,2.5]}],fmt:x=>x.toFixed(0),h:270});
- barChart($('bdChart'),{cats:['Heat wave','Flood (Aug)','Flood (Jun–Jul)','Cyclone Remal'],series:[{name:'People affected (mn)',color:C.north,values:[33,5.8,5.1,4.6]}],horizontal:true,labels:true,fmt:x=>x.toFixed(1),h:270,lw:110});
-}
 function rAbout(){
- const p=M.params,e=M.excluded;
- const rows=[['📥','Data',`KoboToolbox baseline: ${(M.households.Northern+M.households.Southern).toLocaleString()} consenting households (North ${M.households.Northern.toLocaleString()} · South ${M.households.Southern.toLocaleString()}), ${M.events.toLocaleString()} disaster events. Updated automatically every day.`],
-  ['🔒','Privacy','Only aggregated figures are published. No names, ID numbers, phone numbers, GPS points or household records. Any filter combination with fewer than 5 households is hidden.'],
-  ['📅','Recall window',`Disaster events dated ${p.win_start}–${p.win_end} and not after the interview (${e.outside_window} events excluded).`],
-  ['🏠','Infrastructure','House + latrine + tubewell damage (BDT). Repair costs are shown separately and not added.'],
-  ['🌾','Livelihood','Crops (estimate: normal-year crop value × % damaged per event) + livestock + poultry losses.'],
-  ['🧹','Cleaning',`Excluded as entry errors: crop damage % above ${p.max_crop_pct} (${e.crop_pct_invalid} events), poultry above BDT ${p.max_pou_per.toLocaleString()}/bird or ${p.max_pou_n.toLocaleString()} birds/event, livestock above BDT ${p.max_liv_per.toLocaleString()}/animal, crop value above BDT ${(p.max_crop_val/1e6)}m.`],
-  ['🔗','Correlations','Pearson r with p-values; 1/0 variables give point-biserial r. Correlation is not causation.'],
-  ['⚠️','Data gaps','No question on women\'s post-disaster illness or disease type, and no before/after debt. Proxies are used and labelled.'],
-  ['💱','Currency',`BDT. US$ at ${p.fx} BDT per dollar.`]];
- $('aboutCard').innerHTML='<h3>About this observatory</h3>'+rows.map(r=>`<div class="row"><div>${r[0]}</div><b>${r[1]}</b><p>${r[2]}</p></div>`).join('');
+ $('aboutCard').innerHTML=`<div style="text-align:center;padding:40px 10px"><div style="font-size:42px">🌀</div><h2 style="margin:10px 0 4px">Loss &amp; Damage Observatory</h2><p style="font-size:15px;margin:4px 0"><b>Version 1</b> developed</p><p style="font-size:15px;margin:4px 0">Developed by <b>Md. Shahriar Hasan</b>, Program Manager, Climate Action, Friendship</p><p class="note" style="margin-top:14px">Last data update: ${M.updated}</p></div>`;
 }
-
 /* ---------- controls ---------- */
-const TABS=[['overview','📊','Overview'],['economic','💰','Economic L&D'],['people','🏚️','Assets & people'],['corr','🔗','Correlations'],['women','👩','Women · health · debt'],['global','🌍','Global'],['about','📝','About']];
+const TABS=[['overview','📊','Overview'],['economic','💰','Economic L&D'],['people','🏚️','Assets & people'],['corr','🤝','Support & correlations'],['women','👩','Women · health · debt'],['about','📝','About']];
 function buildControls(){
  $('fRegion').innerHTML=[['A','All',''],['N','North','n'],['S','South','s']].map(([k,l,c])=>`<button class="pill ${c}" data-k="${k}">${l}</button>`).join('');
  $('fSex').innerHTML=M.lists.sex.map(k=>`<button class="pill" data-k="${k}">${k==='Female'?'👩 Female':k==='Male'?'👨 Male':k}</button>`).join('');
  $('fDistrict').innerHTML=M.lists.district.map(d=>`<option>${d}</option>`).join('');
  $('fType').innerHTML=M.lists.type.map(t=>`<option>${t}</option>`).join('');
  $('segMeasure').innerHTML=Object.entries(MEAS).map(([k,v])=>`<button data-k="${k}">${v.label}</button>`).join('');
- $('segView').innerHTML=['District','Disaster type','Year'].map(k=>`<button data-k="${k}">by ${k.toLowerCase()}</button>`).join('');
+ $('segView').innerHTML=['District','Disaster type'].map(k=>`<button data-k="${k}">by ${k.toLowerCase()}</button>`).join('');
  $('tabs').innerHTML=TABS.map(([k,i,l])=>`<button data-k="${k}"><span>${i}</span>${l}</button>`).join('');
  $('fRegion').onclick=e=>{const b=e.target.closest('button');if(b){S.region=b.dataset.k;if(S.region!=='A'&&S.district!=='All'&&!M.lists.districts[S.region==='N'?'Northern':'Southern'].includes(S.district))S.district='All';syncControls();render()}};
  $('fSex').onclick=e=>{const b=e.target.closest('button');if(b){S.sex=b.dataset.k;syncControls();render()}};
@@ -445,7 +429,7 @@ function syncControls(){
 function render(){
  const o=getR();const sup=!o||o.suppressed;$('warn').style.display=sup?'block':'none';
  $('inview').textContent=o?fmtN(o.n):'–';
- ({overview:rOverview,economic:rEconomic,people:rPeople,corr:rCorr,women:rWomen,global:rGlobal,about:rAbout})[S.tab]();
+ ({overview:rOverview,economic:rEconomic,people:rPeople,corr:rCorr,women:rWomen,about:rAbout})[S.tab]();
 }
 async function init(){
  try{const j=window.__DATA__||await (await fetch('data.json',{cache:'no-cache'})).json();D=j.data;M=j.meta}catch(err){$('upd').textContent='could not load data.json';return}
