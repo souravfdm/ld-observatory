@@ -197,6 +197,22 @@ footer{color:var(--muted);font-size:11px;text-align:center;padding:20px}
     <p class="note" style="margin-top:10px">ⓘ Women's illness after disasters is not asked in the baseline; these are the closest available indicators.</p>
   </section>
 
+  <!-- MIGRATION & EARLY MARRIAGE -->
+  <section class="page" id="p-migration">
+    <div class="grid g6" id="m1"></div>
+    <div class="legend" style="margin-top:12px"><span><i style="background:var(--north)"></i>North · char</span><span><i style="background:var(--south)"></i>South · coast</span></div>
+    <div class="grid g3" style="margin-top:8px">
+      <div class="card"><h3>🧳 Why family members migrated <span class="sub">households, main causes</span></h3><div id="migCause"></div></div>
+      <div class="card"><h3>🔁 Type of migration <span class="sub">households</span></h3><div id="migType"></div></div>
+      <div class="card"><h3>📍 Where they went <span class="sub">households</span></h3><div id="migDest"></div></div>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>💍 Causes of early marriage <span class="sub">women married before 18</span></h3><div id="cmCause"></div></div>
+      <div class="card"><h3>🗺️ By district <span class="sub">click a district to filter</span></h3><div class="legend"><span><i style="background:var(--north)"></i>Households with migration</span><span><i style="background:#C2185B"></i>Women married before 18</span></div><div id="mdChart"></div></div>
+    </div>
+    <p class="note" style="margin-top:10px">ⓘ Migration: a household member moved temporarily or permanently in the past 5 years. Early marriage: women household members asked whether they married before age 18. These indicators are not split by disaster type.</p>
+  </section>
+
   <!-- ABOUT -->
   <section class="page about" id="p-about"><div class="card" id="aboutCard"></div></section>
 </main>
@@ -445,11 +461,30 @@ function rWomen(){
  barChart($('purposeChart'),{cats:M.lists.purpose,series:[{name:'North',color:C.north,values:pick('N',o=>o.debt.purpose,8)},{name:'South',color:C.south,values:pick('S',o=>o.debt.purpose,8)}],horizontal:true,fmt:fmtN,h:300,lw:120});
  barChart($('disChart'),{cats:M.lists.dis_types,series:[{name:'North',color:C.north,values:pick('N',o=>o.women.dis_types,6)},{name:'South',color:C.south,values:pick('S',o=>o.women.dis_types,6)}],horizontal:true,fmt:fmtN,h:300,lw:110,labels:true});
 }
+function rMigration(){
+ tiles('m1',[{ic:'🧳',bg:'#E6F0F6',acc:C.north,lab:'Households with a member who migrated',f:o=>o.mig.pct,fmt:'p',sub:o=>o&&!o.suppressed?`${fmtN(o.mig.hh)} of ${fmtN(o.n)} households`:''},
+  {ic:'🚶',bg:'#E6F0F6',acc:C.north,lab:'People who migrated',f:o=>o.mig.members,fmt:'n'},
+  {ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Women who migrated',f:o=>o.mig.women,fmt:'n'},
+  {ic:'🧒',bg:'#FFF4D6',acc:C.south,lab:'Children (<18) who migrated',f:o=>o.mig.child,fmt:'n'},
+  {ic:'💍',bg:'#F7E9F2',acc:C.pink,lab:'Women married before 18',f:o=>o.cm.pct,fmt:'p',sub:o=>o&&!o.suppressed?`${fmtN(o.cm.yes)} of ${fmtN(o.cm.asked)} women asked`:''},
+  {ic:'🌊',bg:'#E7F6F3',acc:C.teal,lab:'Early marriage linked to climate',f:o=>o.cm.climate,fmt:'n',hint:'Climate income loss or displacement/river erosion given as a cause'}]);
+ const pick=(r,f,n)=>{const o=getR(r);return o&&!o.suppressed?f(o):Array(n).fill(0)};
+ const dim=j=>S.region!=='A'&&(j===0?S.region!=='N':S.region!=='S');
+ const ser=(f,n)=>[{name:'North',color:C.north,values:pick('N',f,n)},{name:'South',color:C.south,values:pick('S',f,n)}];
+ barChart($('migCause'),{cats:M.lists.mig_causes,series:ser(o=>o.mig.causes,8),horizontal:true,stacked:true,fmt:fmtN,h:300,lw:130,dim});
+ barChart($('migType'),{cats:M.lists.mig_types,series:ser(o=>o.mig.types,4),fmt:fmtN,h:300,labels:true,dim});
+ barChart($('migDest'),{cats:M.lists.mig_dest,series:ser(o=>o.mig.dest,6),horizontal:true,stacked:true,fmt:fmtN,h:300,lw:120,dim});
+ barChart($('cmCause'),{cats:M.lists.cm_causes,series:ser(o=>o.cm.causes,10),horizontal:true,stacked:true,fmt:fmtN,h:320,lw:140,dim});
+ const ds=[...M.lists.districts.Northern,...M.lists.districts.Southern];
+ const dv=f=>ds.map(d=>{const x=D[`${d}|${S.sex}|${S.type}`];const o=x&&x.A;return o&&!o.suppressed?f(o):0});
+ barChart($('mdChart'),{cats:ds,series:[{name:'HHs with migration',color:C.north,values:dv(o=>o.mig.pct)},{name:'Married before 18',color:C.pink,values:dv(o=>o.cm.pct)}],fmt:fmtP,h:320,labels:true,active:S.district,
+  onClick:c=>{S.district=S.district===c?'All':c;syncControls();render()}});
+}
 function rAbout(){
  $('aboutCard').innerHTML=`<div style="text-align:center;padding:40px 10px"><div style="font-size:42px">🌀</div><h2 style="margin:10px 0 4px">Loss &amp; Damage Observatory</h2><p style="font-size:15px;margin:4px 0"><b>Version 1</b> developed</p><p style="font-size:15px;margin:4px 0">Developed by <b>Md. Shahriar Hasan</b>, Program Manager, Climate Action, Friendship</p><p class="note" style="margin-top:14px">Last data update: ${M.updated}</p></div>`;
 }
 /* ---------- controls ---------- */
-const TABS=[['overview','📊','Overview'],['economic','💰','Economic L&D'],['people','🏚️','Assets & people'],['women','👩','Women · health · debt'],['about','📝','About']];
+const TABS=[['overview','📊','Overview'],['economic','💰','Economic L&D'],['people','🏚️','Assets & people'],['women','👩','Women · health · debt'],['migration','🧳','Migration · early marriage'],['about','📝','About']];
 function buildControls(){
  $('fRegion').innerHTML=[['A','All',''],['N','North','n'],['S','South','s']].map(([k,l,c])=>`<button class="pill ${c}" data-k="${k}">${l}</button>`).join('');
  $('fSex').innerHTML=M.lists.sex.map(k=>`<button class="pill" data-k="${k}">${k==='Female'?'👩 Female':k==='Male'?'👨 Male':k}</button>`).join('');
@@ -477,7 +512,7 @@ function syncControls(){
 function render(){
  const o=getR();const sup=!o||o.suppressed;$('warn').style.display=sup?'block':'none';
  $('inview').textContent=o?fmtN(o.n):'–';
- ({overview:rOverview,economic:rEconomic,people:rPeople,women:rWomen,about:rAbout})[S.tab]();
+ ({overview:rOverview,economic:rEconomic,people:rPeople,women:rWomen,migration:rMigration,about:rAbout})[S.tab]();
 }
 async function init(){
  try{const j=window.__DATA__||await (await fetch('data.json',{cache:'no-cache'})).json();D=j.data;M=j.meta}catch(err){$('upd').textContent='could not load data.json';return}

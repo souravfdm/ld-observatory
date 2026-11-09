@@ -21,6 +21,19 @@ TYPES = ['Flood', 'Storms/cyclones', 'River erosion', 'Drought', 'Lightning', 'C
 DISTRICTS = {'Northern': ['Kurigram', 'Gaibandha'], 'Southern': ['Khulna', 'Satkhira', 'Patuakhali', 'Bagerhat']}
 DT = ['Physical', 'Vision', 'Listening', 'Speech impairment', 'Intellectual', 'Multidimensional']
 YEARS = list(range(2021, 2027))
+MIG_C = ['Loss of livelihood (loss of employment/business)', 'Decrease or decrease in income', 'Crop loss/damage', 'Damage to houses/displacement',
+         'Debt Stress', 'Food insecurity', 'Education', 'Marriage/Family Reasons']
+MIG_CL = ['Loss of livelihood', 'Fall in income', 'Crop loss', 'House damage', 'Debt stress', 'Food insecurity', 'Education', 'Marriage / family']
+MIG_T = ['Seasonal', 'Cyclical', 'Long-term', 'Permanent']
+MIG_TL = ['Seasonal', 'Cyclical', 'Long-term', 'Permanent']
+MIG_D = ['Inside the village', 'Inside the Union/Upazila', 'Within the District', 'Outside the district', 'Urban areas (city)', 'International/Overseas']
+MIG_DL = ['Same village', 'Same union / upazila', 'Same district', 'Other district', 'City', 'Overseas']
+MIG_R = ['Flood', 'Cyclone', 'River erosion', 'Drought', 'Tidal surges/tidal waters', 'Increased salinity']
+MIG_RL = ['Flood', 'Cyclone', 'River erosion', 'Drought', 'Tidal surge', 'Salinity']
+CM_C = ['Poverty', 'Loss of income/livelihood due to climate disaster', 'Leaving school', 'Safety concerns', 'Social/family pressures',
+        'Dowry-related reasons', 'Displacement/river erosion', 'Food Crisis', 'Debt Burden', 'Other (specify):']
+CM_CL = ['Poverty', 'Climate income loss', 'Leaving school', 'Safety concerns', 'Social / family pressure', 'Dowry', 'Displacement / erosion',
+         'Food crisis', 'Debt burden', 'Other']
 
 
 def num(s): return pd.to_numeric(s, errors='coerce')
@@ -66,6 +79,18 @@ def load(north_xlsx, south_xlsx):
         h['WL_Contam'] = flag(m, 'F7. What are the common problems', 'Contamination of drinking water') * wl
         h['WL_Latrine'] = flag(m, 'F7. What are the common problems', 'Latrine overflow / sanitation issues') * wl
         h['Submit'] = pd.to_datetime(m['_submission_time']).dt.normalize()
+        # migration (C block)
+        h['Mig'] = (m['C1. Has any of your family members moved temporarily/permanently?'] == 'Yes').astype(int).values
+        for k, c in [('MigN', 'C3. Number of Members Transferred: Total'), ('MigM', 'Number of Transferred Members: Male'),
+                     ('MigW', 'Number of Transferred Members: Women'), ('MigC', 'Number of Transferred Members: Children (<18)')]:
+            h[k] = (num(m[c]).fillna(0).clip(0, 30) * h['Mig']).values
+        for i, c in enumerate(MIG_C): h[f'MC{i+1}'] = flag(m, 'C5. The main causes of migration', c).values * h['Mig'].values
+        c4 = m['C4. Types of transfers'].fillna('')
+        for i, t in enumerate(MIG_T): h[f'MT{i+1}'] = c4.str.contains(t, regex=False).astype(int).values * h['Mig'].values
+        c6 = m['C6. The destination of the transfer'].fillna('')
+        for i, t in enumerate(MIG_D): h[f'MD{i+1}'] = c6.str.contains(t, regex=False).astype(int).values * h['Mig'].values
+        for i, t in enumerate(MIG_R): h[f'MR{i+1}'] = flag(m, 'C2. What are the reasons for which you have been relocated?', t).values * h['Mig'].values
+        h['MigClim'] = (h[[f'MR{i+1}' for i in range(len(MIG_R))]].sum(axis=1) > 0).astype(int)
         HH.append(h.reset_index(drop=True))
         g = pd.DataFrame({'District': m['Select District'], 'lat': num(m['_A13. GPS coordinates_latitude']), 'lon': num(m['_A13. GPS coordinates_longitude'])})
         GEO.append(g[(g.lat.between(20.5, 26.7)) & (g.lon.between(88, 92.7))])
@@ -97,6 +122,9 @@ def load(north_xlsx, south_xlsx):
         clim = (flag(mm, 'Causes of Child Marriage:', 'Loss of income/livelihood due to climate disaster') |
                 flag(mm, 'Causes of Child Marriage:', 'Displacement/river erosion'))
         q['CMClim'] = (clim & cm).astype(int).values
+        q['CM'] = cm.values
+        q['CMAsk'] = mm['Was this family member married before the age of 18?'].isin(['Yes', 'No']).astype(int).values
+        for i, c in enumerate(CM_C): q[f'CC{i+1}'] = (flag(mm, 'Causes of Child Marriage:', c) & cm).astype(int).values
         MEM.append(q)
     hh = pd.concat(HH, ignore_index=True)
     ev = pd.concat(EV, ignore_index=True)
@@ -219,6 +247,15 @@ def region_metrics(H, E_scope, E_win, M, P):
     o['women'] = {'in_hh': int(H.Women.sum()), 'in_affected': int(A.Women.sum()), 'disabled': int((fem.DisType != '').sum()),
                   'cm_climate': int(fem.CMClim.sum()), 'fhh_affected': int(A.FHH.sum()),
                   'dis_types': [int((fem.DisType == t).sum()) for t in DT]}
+    Mig = H[H.Mig == 1]
+    o['mig'] = {'hh': int(H.Mig.sum()), 'pct': pct(H.Mig), 'members': R(H.MigN.sum()), 'male': R(H.MigM.sum()), 'women': R(H.MigW.sum()),
+                'child': R(H.MigC.sum()), 'clim': int(H.MigClim.sum()), 'causes': [int(H[f'MC{i+1}'].sum()) for i in range(len(MIG_C))],
+                'types': [int(H[f'MT{i+1}'].sum()) for i in range(len(MIG_T))], 'dest': [int(H[f'MD{i+1}'].sum()) for i in range(len(MIG_D))],
+                'reasons': [int(H[f'MR{i+1}'].sum()) for i in range(len(MIG_R))]}
+    Mh_all = M[M.HH_ID.isin(H.index)]
+    ask = int(Mh_all.CMAsk.sum()); yes = int(Mh_all.CM.sum())
+    o['cm'] = {'asked': ask, 'yes': yes, 'pct': R(yes / ask * 1000) / 1000 if ask else 0, 'climate': int(Mh_all.CMClim.sum()),
+               'causes': [int(Mh_all[f'CC{i+1}'].sum()) for i in range(len(CM_C))]}
     o['health'] = [pct(A[c]) for c in ['Chronic', 'WL_Mosq', 'WL_Contam', 'WL_Latrine', 'MealsLow', 'P2']]
     o['debt'] = {'pct': pct(H.HasDebt), 'avg': mean(H.Debt[H.HasDebt == 1]), 'total': R(H.Debt.sum()), 'mahajan': int(H.Mahajan.sum()),
                  'loan_repair_damaged': int(((H.P4 == 1) & (H.HouseLoss > 0)).sum()), 'food_affected': int(((H.P1 == 1) & (H.Affected == 1)).sum()),
@@ -263,7 +300,8 @@ def build(north_xlsx, south_xlsx, P=PARAMS):
     meta = {'updated': dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%d %H:%M UTC'), 'households': {'Northern': int((hh.Region == 'Northern').sum()), 'Southern': int((hh.Region == 'Southern').sum())},
             'events': int(len(ev)), 'members': int(len(mem)), 'params': P, 'excluded': excluded,
             'lists': {'district': dlist, 'sex': slist, 'type': tlist, 'types': TYPES, 'years': YEARS, 'districts': DISTRICTS,
-                      'assets': ALAB, 'purpose': PLAB, 'dis_types': DT}, 'centroids': centroids,
+                      'assets': ALAB, 'purpose': PLAB, 'dis_types': DT,
+                      'mig_causes': MIG_CL, 'mig_types': MIG_TL, 'mig_dest': MIG_DL, 'mig_reasons': MIG_RL, 'cm_causes': CM_CL}, 'centroids': centroids,
             'district_n': {k: int(v) for k, v in hh.District.value_counts().items()}}
     return {'meta': meta, 'data': combos}
 
