@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8C%80%3C/text%3E%3C/svg%3E">
+<title>Loss & Damage Observatory · Friendship</title>
+<meta name="description" content="Friendship's Loss and Damage Observatory: climate-induced loss and damage in char and coastal Bangladesh. Baseline 2026.">
+<style>
+:root{--navy:#1B2A41;--north:#2E86AB;--south:#E07A1F;--all:#5C677D;--teal:#0F9D8A;--bg:#EEF1F5;--card:#fff;--muted:#6B7280;--line:#E3E8EF;--green:#2E7D32;--purple:#7B2CBF;--red:#D62828;--pink:#C2185B}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 18px}
+/* header art */
+header{position:relative;height:150px;overflow:hidden;background:linear-gradient(100deg,#13203A,#1B2A41 45%,#16485C 75%,#0F6E6A)}
+header svg.art{position:absolute;right:0;top:0;height:100%;width:62%}
+header .t{position:absolute;left:28px;top:30px;color:#fff;z-index:2}
+header h1{margin:0;font-size:30px;letter-spacing:-.5px}
+header p{margin:6px 0 0;color:#C9D3E0;font-size:13px}
+header .upd{position:absolute;right:16px;bottom:10px;color:#C9D3E0;font-size:11px;z-index:2;background:rgba(0,0,0,.25);padding:3px 8px;border-radius:10px}
+/* sticky filter bar */
+.bar{position:sticky;top:0;z-index:20;background:rgba(238,241,245,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.filters{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;padding:10px 0}
+.f label{display:block;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px}
+.pills{display:flex;background:#fff;border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.pill{border:0;background:transparent;padding:6px 12px;border-radius:8px;font:600 13px inherit;font-family:inherit;color:var(--navy);cursor:pointer;transition:.15s}
+.pill:hover{background:#F2F5F9}
+.pill.on{background:var(--navy);color:#fff}
+.pill.on.n{background:var(--north)}.pill.on.s{background:var(--south)}
+select{appearance:none;border:1px solid var(--line);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%231B2A41'/%3E%3C/svg%3E") no-repeat right 10px center;padding:8px 30px 8px 12px;border-radius:10px;font:600 13px inherit;font-family:inherit;color:var(--navy);cursor:pointer;min-width:150px}
+.inview{margin-left:auto;text-align:right}
+.inview b{font-size:20px;color:var(--teal)}
+.inview small{display:block;color:var(--muted);font-size:11px}
+.reset{border:0;background:transparent;color:var(--teal);font-weight:700;cursor:pointer;font-size:12px;padding:0}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;padding:0 0 8px}
+nav.tabs button{border:0;background:transparent;padding:8px 14px;border-radius:999px;font:600 13px inherit;font-family:inherit;color:var(--muted);cursor:pointer;white-space:nowrap}
+nav.tabs button.on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+nav.tabs button span{margin-right:6px}
+/* grid & cards */
+main{padding:16px 0 40px}
+.page{display:none;animation:fade .35s ease}
+.page.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.grid{display:grid;gap:14px}
+.g6{grid-template-columns:repeat(6,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.span2{grid-column:span 2}.span3{grid-column:span 3}.span4{grid-column:span 4}
+@media(max-width:1000px){.g6{grid-template-columns:repeat(3,1fr)}.g4,.g3{grid-template-columns:repeat(2,1fr)}.span3,.span4{grid-column:span 2}}
+@media(max-width:620px){.g6,.g4,.g3,.g2{grid-template-columns:1fr 1fr}.span2,.span3,.span4{grid-column:span 2}header h1{font-size:22px}header svg.art{opacity:.45;width:100%}}
+.card{background:var(--card);border-radius:14px;padding:14px 16px;box-shadow:0 1px 2px rgba(16,24,40,.05);border:1px solid #E8ECF2}
+.card h3{margin:0 0 8px;font-size:14px;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.card h3 .sub{font-weight:500;color:var(--muted);font-size:11px}
+.tile{position:relative;padding:12px 14px 10px;border-top:4px solid var(--teal);overflow:hidden;transition:transform .15s, box-shadow .15s}
+.tile:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(16,24,40,.08)}
+.tile .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:21px;float:left;margin:4px 10px 0 0}
+.tile .lab{font-size:10px;font-weight:700;letter-spacing:.4px;color:var(--muted);text-transform:uppercase;line-height:1.2;min-height:24px;display:flex;align-items:flex-end}
+.tile .val{font-size:24px;font-weight:800;line-height:1.15;letter-spacing:-.5px}
+.tile .ns{clear:both;display:flex;gap:10px;font-size:11px;font-weight:700;margin-top:6px}
+.tile .ns .n{color:var(--north)}.tile .ns .s{color:var(--south)}
+.tile .ns .x{color:var(--muted);font-weight:500}
+.seg{display:flex;flex-wrap:wrap;gap:4px}
+.seg button{border:1px solid var(--line);background:#fff;padding:4px 9px;border-radius:999px;font:600 11px inherit;font-family:inherit;color:var(--navy);cursor:pointer}
+.seg button.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.chart{width:100%;height:auto;display:block}
+.chart text{font-family:inherit}
+.bar-r{transition:opacity .15s;cursor:pointer}
+.bar-r:hover{opacity:.8}
+.grow{animation:grow .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.growx{animation:growx .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes growx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.legend{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:4px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+#tip{position:fixed;pointer-events:none;background:var(--navy);color:#fff;font-size:12px;padding:7px 10px;border-radius:8px;opacity:0;transition:opacity .1s;z-index:50;max-width:260px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.insight{background:linear-gradient(90deg,#E6F4F1,#fff);border-left:4px solid var(--teal);padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600}
+.rank{display:grid;grid-template-columns:150px 1fr 48px;gap:8px;align-items:center;font-size:12px;margin:7px 0}
+.rank .track{height:12px;background:#F2F4F7;border-radius:6px;overflow:hidden}
+.rank .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#F5BF8F,var(--south));transform-origin:left}
+.rank b{text-align:right}
+.heat{width:100%;border-collapse:separate;border-spacing:3px;font-size:12px}
+.heat td,.heat th{padding:6px 8px;border-radius:6px}
+.heat th{font-size:11px;color:#fff}
+.heat td.v{text-align:center;font-weight:700;cursor:default;min-width:64px}
+.heat td.l{color:var(--navy)}
+.note{font-size:11px;color:var(--muted)}
+.warn{display:none;background:#FDF1E6;color:#9A4A0C;border:1px solid #F7D2AE;padding:8px 12px;border-radius:10px;font-size:12px;font-weight:600;margin-bottom:12px}
+.about p{font-size:13px;line-height:1.55;margin:6px 0}
+.about .row{display:grid;grid-template-columns:34px 140px 1fr;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.about .row div:first-child{font-size:22px}
+footer{color:var(--muted);font-size:11px;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<header>
+  <div class="t"><h1>Loss &amp; Damage Observatory</h1><p>Friendship · Baseline 2026 · char &amp; coastal Bangladesh · from local evidence to global action</p></div>
+  <svg class="art" viewBox="0 0 700 150" preserveAspectRatio="xMaxYMid slice" id="art"></svg>
+  <div class="upd" id="upd">loading…</div>
+</header>
+
+<div class="bar"><div class="wrap">
+  <div class="filters">
+    <div class="f"><label>Region</label><div class="pills" id="fRegion"></div></div>
+    <div class="f"><label>District</label><select id="fDistrict"></select></div>
+    <div class="f"><label>Household head</label><div class="pills" id="fSex"></div></div>
+    <div class="f"><label>Disaster type</label><select id="fType"></select></div>
+    <div class="f"><button class="reset" id="reset">↺ reset</button></div>
+    <div class="inview"><b id="inview">–</b><small>households in view</small></div>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</div></div>
+
+<main class="wrap">
+  <div class="warn" id="warn">⚠️ Fewer than 5 households match these filters, so figures are hidden to protect privacy.</div>
+
+  <!-- OVERVIEW -->
+  <section class="page on" id="p-overview">
+    <div class="grid g6" id="kpi1"></div>
+    <div class="grid g6" id="kpi2" style="margin-top:14px"></div>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="card span2">
+        <h3><span id="mainTitle">Total L&amp;D</span><span class="sub">click a district bar to filter</span></h3>
+        <div class="seg" id="segMeasure" style="margin-bottom:6px"></div>
+        <div class="seg" id="segView"></div>
+        <div id="mainChart"></div>
+        <div class="legend"><span><i style="background:var(--north)"></i>North · char</span><span><i style="background:var(--south)"></i>South · coastal</span></div>
+      </div>
+      <div class="card"><h3>Where the money was lost <span class="sub">selected region</span></h3><div id="donut"></div></div>
+    </div>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="card" style="background:#0E1A2B;border-color:#0E1A2B"><h3 style="color:#fff">🗺️ Where we surveyed <span class="sub" style="color:#9fb3c8">tap a district</span></h3><div id="map"></div></div>
+      <div class="card"><h3>🏚️ Top 5 assets fully destroyed <span class="sub">&gt;70% damaged</span></h3><div id="rank"></div>
+        <h3 style="margin-top:16px">📅 Disaster events per year</h3><div id="yearChart"></div></div>
+      <div class="card"><h3>💡 Key messages</h3><div id="insights"></div></div>
+    </div>
+  </section>
+
+  <!-- ECONOMIC -->
+  <section class="page" id="p-economic">
+    <div class="grid g6" id="eco1"></div>
+    <div class="grid g6" id="eco2" style="margin-top:14px"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>Loss &amp; damage by component <span class="sub">BDT million</span></h3><div id="ecoChart"></div></div>
+      <div class="card"><h3>🌀 Cyclones: house damage vs repair <span class="sub">average per event, BDT</span></h3><div id="cycChart"></div></div>
+    </div>
+    <div class="insight" id="ecoInsight" style="margin-top:14px"></div>
+  </section>
+
+  <!-- PEOPLE -->
+  <section class="page" id="p-people">
+    <div class="grid g6" id="ppl1"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>Assets fully damaged <span class="sub">% of households</span></h3><div id="assetChart"></div></div>
+      <div class="card"><h3>By disaster type <span class="sub">all hazards</span></h3>
+        <div class="seg" id="segPeople"></div><div id="typeChart"></div></div>
+    </div>
+  </section>
+
+  <!-- CORRELATION -->
+  <section class="page" id="p-corr">
+    <div class="grid g3">
+      <div class="card span2"><h3>🔗 What moves together? <span class="sub">Pearson r · hover a cell</span></h3><table class="heat" id="heat"></table>
+        <div class="note">🟧 negative · ⬜ none · 🟦 positive &nbsp; ★ p&lt;0.05 &nbsp; ★★ p&lt;0.01 · correlation is not causation</div></div>
+      <div class="card"><h3>⚖️ Avg L&amp;D per household <span class="sub">BDT, group = yes</span></h3><div id="groupChart"></div></div>
+    </div>
+    <div class="grid g4" id="corrTiles" style="margin-top:14px"></div>
+  </section>
+
+  <!-- WOMEN -->
+  <section class="page" id="p-women">
+    <div class="grid g6" id="w1"></div>
+    <div class="grid g6" id="w2" style="margin-top:14px"></div>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="card"><h3>🏥 Health signals <span class="sub">% of affected HHs</span></h3><div id="healthChart"></div></div>
+      <div class="card"><h3>💳 Why households borrow <span class="sub">households</span></h3><div id="purposeChart"></div></div>
+      <div class="card"><h3>♿ Women with disability <span class="sub">affected HHs, by type</span></h3><div id="disChart"></div></div>
+    </div>
+    <p class="note" style="margin-top:10px">ⓘ The baseline has no question on women's illness after disasters or disease type; these are the closest proxies. A health module is recommended for the next round.</p>
+  </section>
+
+  <!-- GLOBAL -->
+  <section class="page" id="p-global">
+    <div class="grid g6" id="gl1"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>🌍 Global economic losses by hazard <span class="sub">US$ bn · EM-DAT</span></h3><div id="glChart"></div>
+        <div class="legend"><span><i style="background:var(--south)"></i>2024</span><span><i style="background:var(--all)"></i>2004–23 average</span></div></div>
+      <div class="card"><h3>🇧🇩 Bangladesh in the 2024 global top-10 <span class="sub">people affected, million</span></h3><div id="bdChart"></div></div>
+    </div>
+    <p class="note">Sources: CRED (2025) <i>2024 Disasters in Numbers</i>; Germanwatch CRI 2026 and IIED as cited by Friendship.</p>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="page about" id="p-about"><div class="card" id="aboutCard"></div></section>
+</main>
+<footer>Friendship Loss &amp; Damage Observatory · anonymised, aggregated data only · <span id="foot"></span></footer>
+<div id="tip"></div>
+
+<script>
+/*__INLINE__*/
+const C={navy:'#1B2A41',north:'#2E86AB',south:'#E07A1F',all:'#5C677D',teal:'#0F9D8A',green:'#2E7D32',purple:'#7B2CBF',red:'#D62828',pink:'#C2185B',muted:'#6B7280'};
+const S={region:'A',district:'All',sex:'All',type:'All',measure:'Total',view:'District',ppl:'Deaths',tab:'overview'};
+let D=null,M=null;
+const $=id=>document.getElementById(id);
+const fmtC=v=>v==null?'–':Math.abs(v)>=1e6?(v/1e6).toFixed(1)+'m':Math.abs(v)>=1e4?Math.round(v/1e3)+'k':Math.abs(v)>=1e3?(v/1e3).toFixed(1)+'k':Math.round(v).toLocaleString();
+const fmtN=v=>v==null?'–':Math.round(v).toLocaleString();
+const fmtP=v=>v==null?'–':Math.round(v*100)+'%';
+const fmtR=v=>v==null?'–':(v>=0?'':'−')+Math.abs(v).toFixed(2);
+const tip=$('tip');
+function showTip(e,h){tip.innerHTML=h;tip.style.opacity=1;const x=Math.min(e.clientX+14,innerWidth-270);tip.style.left=x+'px';tip.style.top=(e.clientY+14)+'px'}
+function hideTip(){tip.style.opacity=0}
+function el(tag,attrs,parent){const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const k in attrs)n.setAttribute(k,attrs[k]);if(parent)parent.appendChild(n);return n}
+
+/* ---------- header art ---------- */
+(function art(){const s=$('art');let h='<defs><linearGradient id="sea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2E86AB" stop-opacity=".55"/><stop offset="1" stop-color="#0F9D8A" stop-opacity=".9"/></linearGradient></defs>';
+ const wave=(off,amp,f,ph,col,op)=>{let d='M0 150 ';for(let x=0;x<=700;x+=10)d+=`L${x} ${150-off-amp*Math.sin(x/f+ph)} `;return `<path d="${d} L700 150Z" fill="${col}" opacity="${op}"><animate attributeName="opacity" values="${op};${op*.75};${op}" dur="${6+ph}s" repeatCount="indefinite"/></path>`};
+ h+=wave(46,5,40,3,'#E07A1F',.22)+wave(32,6,48,1,'#7FB7D6',.35)+wave(22,7,36,2,'#2E86AB',.6)+wave(10,5,30,0,'#0F9D8A',.75);
+ [[200,70],[400,100],[600,60]].forEach(([cx,w])=>{h+=`<ellipse cx="${cx}" cy="${150-24}" rx="${w}" ry="7" fill="#E9D8A6" opacity=".95"/>`});
+ [185,207,380,402,424,590].forEach(x=>{h+=`<rect x="${x}" y="${150-40}" width="14" height="12" fill="#F4F1DE"/><path d="M${x-2} ${150-40}L${x+7} ${150-49}L${x+16} ${150-40}Z" fill="#B5523B"/>`});
+ let sp='';for(let t=0;t<18.8;t+=.08){const r=2+t*2.4;sp+=`${t?'L':'M'}${590+r*Math.cos(t)} ${48+r*Math.sin(t)*.55} `}
+ h+=`<g opacity=".35"><path d="${sp}" fill="none" stroke="#fff" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 590 48" to="360 590 48" dur="30s" repeatCount="indefinite"/></path></g>`;
+ for(let i=0;i<60;i++){const x=Math.random()*700,y=Math.random()*90;h+=`<line x1="${x}" y1="${y}" x2="${x-3}" y2="${y+8}" stroke="#A9CCE3" stroke-width=".8" opacity=".35"><animate attributeName="y1" values="${y};${y+40}" dur="${1.5+Math.random()}s" repeatCount="indefinite"/><animate attributeName="y2" values="${y+8};${y+48}" dur="${1.5+Math.random()}s" repeatCount="indefinite"/></line>`}
+ s.innerHTML=h})();
+
+/* ---------- charts ---------- */
+function barChart(host,o){ // o: cats, series[{name,color,values}], stacked, horizontal, fmt, onClick, h, active
+ host.innerHTML='';const W=Math.max(300,Math.round(host.clientWidth||600)),H=o.h||260,hz=o.horizontal;const pad=hz?{l:o.lw||150,r:50,t:8,b:8}:{l:44,r:10,t:16,b:44};
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,class:'chart'},host);
+ const n=o.cats.length,ns=o.series.length;
+ const tot=o.cats.map((_,i)=>o.stacked?o.series.reduce((a,s)=>a+(s.values[i]||0),0):Math.max(...o.series.map(s=>s.values[i]||0)));
+ const mx=Math.max(1e-9,...tot);const fmt=o.fmt||fmtC;
+ const iw=W-pad.l-pad.r,ih=H-pad.t-pad.b;
+ if(!hz){for(let k=0;k<=4;k++){const y=pad.t+ih-ih*k/4;el('line',{x1:pad.l,x2:W-pad.r,y1:y,y2:y,stroke:'#EEF1F5'},svg);el('text',{x:pad.l-6,y:y+3,'text-anchor':'end','font-size':10,fill:C.muted},svg).textContent=fmt(mx*k/4)}}
+ const band=(hz?ih:iw)/n,gw=band*.68,bw=o.stacked?gw:gw/ns;
+ o.cats.forEach((c,i)=>{let acc=0;
+  o.series.forEach((s,j)=>{const v=s.values[i]||0;const len=(v/mx)*(hz?iw:ih);let r;
+   if(hz){const y=pad.t+i*band+(band-gw)/2+(o.stacked?0:j*bw);const x=pad.l+(o.stacked?acc/mx*iw:0);
+    r=el('rect',{x,y,width:Math.max(0,len),height:bw-1,rx:3,fill:s.color,class:'bar-r growx',style:`transform-box:fill-box;animation-delay:${i*30}ms`},svg)}
+   else{const x=pad.l+i*band+(band-gw)/2+(o.stacked?0:j*bw);const y=pad.t+ih-(o.stacked?acc/mx*ih:0)-len;
+    r=el('rect',{x,y,width:bw-1,height:Math.max(0,len),rx:3,fill:s.color,class:'bar-r grow',style:`transform-origin:center bottom;transform-box:fill-box;animation-delay:${i*30}ms`},svg)}
+   if(o.dim&&o.dim(j))r.setAttribute('opacity','.25');
+   r.addEventListener('mousemove',e=>showTip(e,`<b>${c}</b><br>${s.name}: ${fmt(v)}`));r.addEventListener('mouseleave',hideTip);
+   if(o.onClick)r.addEventListener('click',()=>o.onClick(c,i));
+   if(o.stacked)acc+=v;
+   if(o.labels&&v>0){if(hz)el('text',{x:pad.l+(o.stacked?acc/mx*iw:len)+4,y:pad.t+i*band+(band-gw)/2+(o.stacked?0:j*bw)+bw/2+3,'font-size':10,fill:C.navy,'font-weight':700},svg).textContent=fmt(v);
+    else if(!o.stacked)el('text',{x:pad.l+i*band+(band-gw)/2+j*bw+bw/2,y:pad.t+ih-len-4,'text-anchor':'middle','font-size':10,fill:C.navy,'font-weight':700},svg).textContent=fmt(v)}
+  });
+  if(o.stacked&&!hz&&tot[i]>0)el('text',{x:pad.l+i*band+band/2,y:pad.t+ih-tot[i]/mx*ih-5,'text-anchor':'middle','font-size':11,'font-weight':700,fill:C.navy},svg).textContent=fmt(tot[i]);
+  const lab=el('text',hz?{x:pad.l-8,y:pad.t+i*band+band/2+4,'text-anchor':'end','font-size':11,fill:C.navy}:{x:pad.l+i*band+band/2,y:H-pad.b+16,'text-anchor':'middle','font-size':11,fill:C.navy},svg);
+  lab.textContent=c.length>22?c.slice(0,21)+'…':c;
+  if(o.active&&o.active===c){lab.setAttribute('font-weight',800);lab.setAttribute('fill',C.teal)}
+ });
+ if(!hz)el('line',{x1:pad.l,x2:W-pad.r,y1:pad.t+ih,y2:pad.t+ih,stroke:'#CBD2DC'},svg);
+}
+function donut(host,labels,values,colors){host.innerHTML='';const W=300,H=260,cx=150,cy=118,R=95,r=58;const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,class:'chart'},host);
+ const tot=values.reduce((a,b)=>a+b,0)||1;let a0=-Math.PI/2;
+ values.forEach((v,i)=>{const a1=a0+v/tot*2*Math.PI;const lg=a1-a0>Math.PI?1:0;
+  const p=`M${cx+R*Math.cos(a0)} ${cy+R*Math.sin(a0)} A${R} ${R} 0 ${lg} 1 ${cx+R*Math.cos(a1)} ${cy+R*Math.sin(a1)} L${cx+r*Math.cos(a1)} ${cy+r*Math.sin(a1)} A${r} ${r} 0 ${lg} 0 ${cx+r*Math.cos(a0)} ${cy+r*Math.sin(a0)}Z`;
+  const s=el('path',{d:p,fill:colors[i],stroke:'#fff','stroke-width':2,class:'bar-r'},svg);
+  s.addEventListener('mousemove',e=>showTip(e,`<b>${labels[i]}</b><br>BDT ${fmtC(v)} · ${Math.round(v/tot*100)}%`));s.addEventListener('mouseleave',hideTip);
+  if(v/tot>.06){const am=(a0+a1)/2;el('text',{x:cx+(R+r)/2*Math.cos(am),y:cy+(R+r)/2*Math.sin(am)+4,'text-anchor':'middle','font-size':11,'font-weight':700,fill:'#fff'},svg).textContent=Math.round(v/tot*100)+'%'}
+  a0=a1});
+ el('text',{x:cx,y:cy-2,'text-anchor':'middle','font-size':20,'font-weight':800,fill:C.navy},svg).textContent=fmtC(tot);
+ el('text',{x:cx,y:cy+15,'text-anchor':'middle','font-size':10,fill:C.muted},svg).textContent='BDT total';
+ labels.forEach((l,i)=>{const x=10+(i%3)*98,y=232+Math.floor(i/3)*16;el('rect',{x,y:y-8,width:9,height:9,rx:2,fill:colors[i]},svg);el('text',{x:x+13,y,'font-size':10,fill:C.navy},svg).textContent=l});
+}
+function mapChart(host){host.innerHTML='';const W=360,H=400;const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,class:'chart'},host);
+ const la=[21.6,26.0],lo=[88.6,90.8];const px=x=>30+(x-lo[0])/(lo[1]-lo[0])*(W-80),py=y=>H-30-(y-la[0])/(la[1]-la[0])*(H-70);
+ for(let i=0;i<9;i++){el('line',{x1:0,x2:W,y1:i*50,y2:i*50,stroke:'#fff','stroke-opacity':.04},svg);el('line',{y1:0,y2:H,x1:i*45,x2:i*45,stroke:'#fff','stroke-opacity':.04},svg)}
+ el('text',{x:W/2,y:H-8,'text-anchor':'middle','font-size':11,'font-style':'italic',fill:'#7FB7D6'},svg).textContent='Bay of Bengal';
+ const cur=getR();const md=cur&&!cur.suppressed?cur.by_district:null;
+ const order=[...M.lists.districts.Northern,...M.lists.districts.Southern];
+ const lbl={Khulna:[-8,-26,'end'],Satkhira:[-10,22,'end'],Bagerhat:[16,-12,'start'],Patuakhali:[16,10,'start'],Kurigram:[18,-4,'start'],Gaibandha:[18,8,'start']};
+ order.forEach((d,i)=>{const c=M.centroids[d];if(!c)return;const n=M.district_n[d]||0;const reg=M.lists.districts.Northern.includes(d)?'N':'S';
+  const x=px(c[1]),y=py(c[0]),r=6+Math.sqrt(n)*.75;const col=reg==='N'?C.north:C.south;const sel=S.district===d;
+  const g=el('g',{style:'cursor:pointer'},svg);
+  el('circle',{cx:x,cy:y,r:r*1.9,fill:col,opacity:.12},g);
+  const cc=el('circle',{cx:x,cy:y,r,fill:col,opacity:sel?1:.85,stroke:sel?'#fff':'none','stroke-width':2},g);
+  el('animate',{attributeName:'r',values:`${r};${r*1.08};${r}`,dur:'3s',repeatCount:'indefinite'},cc);
+  const [dx,dy,anc]=lbl[d]||[16,0,'start'];
+  const t=el('text',{x:x+dx,y:y+dy,'text-anchor':anc,'font-size':11,'font-weight':700,fill:'#fff'},g);t.textContent=d;
+  const v=md?md[S.measure==='Count'?'Count':S.measure][i]:null;
+  const t2=el('text',{x:x+dx,y:y+dy+13,'text-anchor':anc,'font-size':10,fill:'#C9D3E0'},g);t2.textContent=`${n.toLocaleString()} HHs`+(v!=null?` · ${measureFmt(v)}`:'');
+  g.addEventListener('click',()=>{S.district=S.district===d?'All':d;syncControls();render()});
+  g.addEventListener('mousemove',e=>showTip(e,`<b>${d}</b><br>${n.toLocaleString()} households surveyed${v!=null?`<br>${MEAS[S.measure].label}: ${measureFmt(v)}`:''}<br><i>click to filter</i>`));g.addEventListener('mouseleave',hideTip)});
+ el('text',{x:12,y:22,'font-size':10,fill:'#9fb3c8'},svg).textContent='bubble size = households surveyed';
+}
+
+/* ---------- data access ---------- */
+const MEAS={Total:{label:'Total L&D',unit:'BDT mn'},Infra:{label:'Infrastructure L&D',unit:'BDT mn'},Livelihood:{label:'Livelihood L&D',unit:'BDT mn'},Deaths:{label:'Human deaths',unit:''},Injured:{label:'Injuries',unit:''},LivDied:{label:'Livestock lost',unit:''},PouDied:{label:'Poultry lost',unit:''},Count:{label:'Households affected',unit:''}};
+const measureFmt=v=>['Total','Infra','Livelihood'].includes(S.measure)?v.toFixed(1)+'m':fmtN(v);
+const key=()=>`${S.district}|${S.sex}|${S.type}`;
+const getAll=()=>D[key()];
+const getR=(r)=>getAll()[r||S.region];
+const val=(r,f)=>{const o=getR(r);return o&&!o.suppressed?f(o):null};
+
+/* ---------- tiles ---------- */
+function tile(t){ // {ic,bg,acc,lab,f(o),fmt,ns:true}
+ const cur=val(null,t.f);const n=val('N',t.f),s=val('S',t.f);
+ return `<div class="card tile" style="border-top-color:${t.acc||C.teal}" title="${t.hint||''}"><div class="ic" style="background:${t.bg||'#EEF0F4'}">${t.ic}</div><div class="lab">${t.lab}</div><div class="val" data-v="${cur??''}" data-f="${t.fmt||'c'}">${fmtAny(cur,t.fmt)}</div>`+
+ (t.sub?`<div class="ns"><span class="x">${t.sub(getR())}</span></div>`:(t.ns===false?'':`<div class="ns"><span class="n">N ${fmtAny(n,t.fmt)}</span><span class="s">S ${fmtAny(s,t.fmt)}</span></div>`))+`</div>`}
+function fmtAny(v,f){if(v==null||v==='')return '–';if(typeof v==='string')return v;return f==='p'?fmtP(v):f==='n'?fmtN(v):f==='r'?fmtR(v):f==='x'?v.toFixed(1)+'x':fmtC(v)}
+function countUp(root){root.querySelectorAll('.val').forEach(e=>{const v=parseFloat(e.dataset.v);if(isNaN(v))return;const f=e.dataset.f;const t0=performance.now();
+ const step=t=>{const k=Math.min(1,(t-t0)/600);const ease=1-Math.pow(1-k,3);e.textContent=fmtAny(v*ease,f==='n'?'n':f);if(k<1)requestAnimationFrame(step);else e.textContent=fmtAny(v,f)};requestAnimationFrame(step)})}
+function tiles(id,list){$(id).innerHTML=list.map(tile).join('');countUp($(id))}
+
+/* ---------- pages ---------- */
+function rOverview(){
+ tiles('kpi1',[
+  {ic:'👥',bg:'#E6F0F6',acc:C.all,lab:'Households affected',f:o=>o.pct_affected,fmt:'p',sub:o=>o&&!o.suppressed?`${fmtN(o.affected)} of ${fmtN(o.n)} hit`:''},
+  {ic:'💰',bg:'#E7F6F3',acc:C.teal,lab:'Total loss & damage',f:o=>o.Total,sub:o=>o&&!o.suppressed?`BDT · US$ ${fmtC(o.Total/M.params.fx)}`:''},
+  {ic:'🏠',bg:'#E6F0F6',acc:C.north,lab:'Infrastructure',f:o=>o.Infra},
+  {ic:'🌾',bg:'#FFF4D6',acc:C.green,lab:'Livelihood',f:o=>o.Livelihood},
+  {ic:'📊',bg:'#EEF0F4',acc:C.all,lab:'Per affected HH',f:o=>o.avg_affected,sub:o=>o&&!o.suppressed?`${(o.per_hh_year/M.params.iied).toFixed(1)}x IIED yearly benchmark`:''},
+  {ic:'🏚️',bg:'#FDF1E6',acc:C.south,lab:'Asset fully damaged',f:o=>o.any_full,fmt:'p'}]);
+ tiles('kpi2',[
+  {ic:'🕯️',bg:'#F1EEF6',acc:C.purple,lab:'Human deaths',f:o=>o.Deaths,fmt:'n'},{ic:'🩹',bg:'#FDECEC',acc:C.red,lab:'Injuries',f:o=>o.Injured,fmt:'n'},
+  {ic:'🐄',bg:'#EAF5EA',acc:C.green,lab:'Livestock lost',f:o=>o.LivDied,fmt:'n'},{ic:'🐔',bg:'#FFF1E0',acc:C.south,lab:'Poultry lost',f:o=>o.PouDied,fmt:'n'},
+  {ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Women in hit HHs',f:o=>o.women.in_affected,fmt:'n'},{ic:'💳',bg:'#EEF0F4',acc:C.all,lab:'HHs in debt',f:o=>o.debt.pct,fmt:'p'}]);
+ // main chart
+ const m=S.measure,v=S.view;const money=['Total','Infra','Livelihood'].includes(m);
+ $('mainTitle').textContent=`${MEAS[m].label}${money?' (BDT mn)':''} by ${v.toLowerCase()}${m==='Count'&&v!=='District'?' · events':''}`;
+ const cats=v==='District'?[...M.lists.districts.Northern,...M.lists.districts.Southern]:v==='Disaster type'?M.lists.types:M.lists.years.map(String);
+ const src=r=>{const o=getR(r);if(!o||o.suppressed)return cats.map(()=>0);const b=v==='District'?o.by_district:v==='Disaster type'?o.by_type:o.by_year;return b[m]};
+ barChart($('mainChart'),{cats,series:[{name:'North',color:C.north,values:src('N')},{name:'South',color:C.south,values:src('S')}],stacked:true,h:250,
+  fmt:money?(x=>x.toFixed(x>=10?0:1)+'m'):fmtC,dim:j=>S.region!=='A'&&(j===0?S.region!=='N':S.region!=='S'),active:S.district,
+  onClick:v==='District'?(c=>{S.district=S.district===c?'All':c;syncControls();render()}):v==='Disaster type'?(c=>{S.type=S.type===c?'All':c;syncControls();render()}):null});
+ const o=getR();const comp=['HouseLoss','LatLoss','TWLoss','CropLoss','LivLoss','PouLoss'];
+ donut($('donut'),['Houses','Latrines','Tubewells','Crops (est.)','Livestock','Poultry'],o&&!o.suppressed?comp.map(c=>o[c]):comp.map(()=>0),['#1B2A41','#2E86AB','#7FB7D6','#E07A1F','#2E7D32','#F2C14E']);
+ mapChart($('map'));
+ // ranking
+ if(o&&!o.suppressed){const arr=o.assets.map((p,i)=>[M.lists.assets[i],p]).sort((a,b)=>b[1]-a[1]).slice(0,5);const mx=arr[0][1]||1;
+  $('rank').innerHTML=arr.map(([a,p],i)=>`<div class="rank"><span>${['🥇','🥈','🥉','4.','5.'][i]} ${a}</span><div class="track"><div class="fill growx" style="width:${p/mx*100}%;animation-delay:${i*80}ms"></div></div><b>${fmtP(p)}</b></div>`).join('')}else $('rank').innerHTML='<p class="note">–</p>';
+ barChart($('yearChart'),{cats:M.lists.years.map(String),series:[{name:'North',color:C.north,values:(getR('N').by_year||{Count:[]}).Count||[]},{name:'South',color:C.south,values:(getR('S').by_year||{Count:[]}).Count||[]}],h:190,fmt:fmtN,dim:j=>S.region!=='A'&&(j===0?S.region!=='N':S.region!=='S')});
+ // insights
+ const N=getR('N'),Sx=getR('S'),A=getR('A');const ok=x=>x&&!x.suppressed;let ins=[];
+ if(ok(N)&&ok(Sx))ins.push(`🏠 An affected household lost <b>BDT ${fmtC(N.avg_affected)}</b> in the North vs <b>BDT ${fmtC(Sx.avg_affected)}</b> in the South.`);
+ if(ok(N)&&ok(Sx)&&N.Total&&Sx.Total)ins.push(`🌾 Livelihood is <b>${fmtP(N.Livelihood/N.Total)}</b> of losses in the North but <b>${fmtP(Sx.Livelihood/Sx.Total)}</b> in the South.`);
+ if(ok(A))ins.push(`🕯️ <b>${fmtN(A.Deaths)}</b> deaths, <b>${fmtN(A.Injured)}</b> injuries and <b>${fmtN(A.LivDied+A.PouDied)}</b> animals lost.`);
+ if(ok(A))ins.push(`⚖️ Yearly L&D per household is <b>${(A.per_hh_year/M.params.iied).toFixed(1)}x</b> the IIED national estimate of BDT ${M.params.iied.toLocaleString()}.`);
+ $('insights').innerHTML=ins.map(t=>`<div class="insight" style="margin-bottom:8px">${t}</div>`).join('')||'<p class="note">–</p>';
+}
+function rEconomic(){
+ const comp=[['🏠','#E6F0F6',C.north,'Houses','HouseLoss'],['🚽','#EEF0F4',C.north,'Latrines','LatLoss'],['🚰','#E6F0F6',C.north,'Tubewells','TWLoss'],['🌾','#FFF4D6',C.green,'Crops (est.)','CropLoss'],['🐄','#EAF5EA',C.green,'Livestock','LivLoss'],['🐔','#FFF1E0',C.green,'Poultry','PouLoss']];
+ tiles('eco1',comp.map(([ic,bg,acc,lab,k])=>({ic,bg,acc,lab,f:o=>o[k]})));
+ const rg=(k)=>o=>o.range[k][1];
+ tiles('eco2',[{ic:'🔨',bg:'#FDF1E6',acc:C.north,lab:'Infrastructure total',f:o=>o.Infra},{ic:'🌾',bg:'#FFF4D6',acc:C.green,lab:'Livelihood total',f:o=>o.Livelihood},
+  {ic:'↕️',acc:C.north,lab:'Highest infra loss / HH',f:rg('Infra'),sub:o=>o&&!o.suppressed?`lowest BDT ${fmtN(o.range.Infra[0])}`:''},
+  {ic:'↕️',acc:C.green,lab:'Highest livelihood loss / HH',f:rg('Livelihood'),sub:o=>o&&!o.suppressed?`lowest BDT ${fmtN(o.range.Livelihood[0])}`:''},
+  {ic:'↕️',acc:C.teal,lab:'Highest total loss / HH',f:rg('Total'),sub:o=>o&&!o.suppressed?`lowest BDT ${fmtN(o.range.Total[0])}`:''},
+  {ic:'🏚️',acc:C.south,lab:'HHs with house damage',f:o=>o.hh_with.Infra,fmt:'n'}]);
+ const keys=comp.map(c=>c[4]);const g=r=>{const o=getR(r);return o&&!o.suppressed?keys.map(k=>o[k]/1e6):keys.map(()=>0)};
+ barChart($('ecoChart'),{cats:comp.map(c=>c[3]),series:[{name:'North',color:C.north,values:g('N')},{name:'South',color:C.south,values:g('S')}],labels:true,fmt:x=>x.toFixed(1),h:260});
+ const cy=r=>{const o=getR(r);return o&&!o.suppressed?o.cyclone:[0,0,0]};
+ barChart($('cycChart'),{cats:['House damage','Repair cost'],series:[{name:'North',color:C.north,values:cy('N').slice(0,2)},{name:'South',color:C.south,values:cy('S').slice(0,2)}],labels:true,fmt:fmtN,h:260});
+ const a=cy('A');$('ecoInsight').innerHTML=a[1]>a[0]?`🔨 After cyclones households spent <b>more on repair (BDT ${fmtN(a[1])})</b> than the damage they reported (BDT ${fmtN(a[0])}) per event: damage values understate the true cost.`:`🏚️ After cyclones the damage (BDT ${fmtN(a[0])}) exceeds what households could spend on repair (BDT ${fmtN(a[1])}): houses are not rebuilt as before.`;
+}
+function rPeople(){
+ const o=getR();let top='–',tp=null;if(o&&!o.suppressed){const i=o.assets.indexOf(Math.max(...o.assets));top=M.lists.assets[i];tp=o.assets[i]}
+ tiles('ppl1',[{ic:'🐄',bg:'#EAF5EA',acc:C.green,lab:'Livestock died',f:o=>o.LivDied,fmt:'n'},{ic:'🐔',bg:'#FFF1E0',acc:C.south,lab:'Poultry died',f:o=>o.PouDied,fmt:'n'},
+  {ic:'🕯️',bg:'#F1EEF6',acc:C.purple,lab:'Human deaths',f:o=>o.Deaths,fmt:'n'},{ic:'🩹',bg:'#FDECEC',acc:C.red,lab:'Injuries',f:o=>o.Injured,fmt:'n'},
+  {ic:'🏚️',bg:'#FDF1E6',acc:C.south,lab:'Any asset fully damaged',f:o=>o.any_full,fmt:'p'},
+  {ic:'🏠',bg:'#E6F0F6',acc:C.all,lab:'Most lost asset',f:()=>top,ns:false,sub:()=>tp!=null?`${fmtP(tp)} of households`:''}]);
+ const as=r=>{const o=getR(r);return o&&!o.suppressed?o.assets:M.lists.assets.map(()=>0)};
+ barChart($('assetChart'),{cats:M.lists.assets,series:[{name:'North',color:C.north,values:as('N')},{name:'South',color:C.south,values:as('S')}],horizontal:true,fmt:fmtP,h:380,lw:130,dim:j=>S.region!=='A'&&(j===0?S.region!=='N':S.region!=='S')});
+ const opts=[['Deaths','🕯️ Deaths'],['Injured','🩹 Injuries'],['LivDied','🐄 Livestock'],['PouDied','🐔 Poultry'],['Count','📌 Events']];
+ $('segPeople').innerHTML=opts.map(([k,l])=>`<button class="${S.ppl===k?'on':''}" data-k="${k}">${l}</button>`).join('');
+ $('segPeople').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.ppl=b.dataset.k;rPeople()});
+ const bt=r=>{const o=getR(r);return o&&!o.suppressed?o.by_type[S.ppl]:M.lists.types.map(()=>0)};
+ barChart($('typeChart'),{cats:M.lists.types,series:[{name:'North',color:C.north,values:bt('N')},{name:'South',color:C.south,values:bt('S')}],fmt:fmtN,h:330,labels:true});
+}
+const CORRL=['Govt support ↔ L&D','Friendship support ↔ L&D','Other-NGO support ↔ L&D','No support ↔ L&D','Female-headed ↔ L&D','Female-headed ↔ support received','House damage ↔ repair cost (HH)','House damage ↔ repair cost (cyclone events)','House damage ↔ crop loss','House damage ↔ debt','Crop loss ↔ debt','Total L&D ↔ debt','Total L&D ↔ loan for house repair','Total L&D ↔ chronic disease','Total L&D ↔ women eat <3 meals','Women members ↔ chronic disease'];
+function heatCol(r){if(r==null)return '#F2F4F7';const a=Math.min(1,Math.abs(r)/.5);const c=r>=0?[46,134,171]:[224,122,31];return `rgba(${c[0]},${c[1]},${c[2]},${(.08+a*.85).toFixed(2)})`}
+function rCorr(){
+ const regs=[['N','North',C.north],['S','South',C.south],['A','All',C.all]];
+ let h=`<tr><th style="background:transparent"></th>${regs.map(r=>`<th style="background:${r[2]}">${r[1]}</th>`).join('')}</tr>`;
+ CORRL.forEach((l,i)=>{h+=`<tr><td class="l">${l}</td>`;regs.forEach(([k])=>{const o=getR(k);const c=o&&!o.suppressed?o.corr[i]:null;const r=c?c[0]:null;const st=c?(c[1]<.01?' ★★':c[1]<.05?' ★':''):'';
+  h+=`<td class="v" style="background:${heatCol(r)};color:${r!=null&&Math.abs(r)>.3?'#fff':C.navy}" data-t="${c?`<b>${l}</b><br>r = ${r.toFixed(3)} · p = ${c[1]<.0001?'<0.0001':c[1].toFixed(4)}<br>n = ${c[2].toLocaleString()}`:'not enough data'}">${r==null?'–':fmtR(r)+st}</td>`});h+='</tr>'});
+ $('heat').innerHTML=h;$('heat').querySelectorAll('td.v').forEach(td=>{td.onmousemove=e=>showTip(e,td.dataset.t);td.onmouseleave=hideTip});
+ const g=r=>{const o=getR(r);return o&&!o.suppressed?o.groups.map(x=>x[0]):[0,0,0,0,0]};
+ barChart($('groupChart'),{cats:['Govt','Friendship','Other NGO','No support','Female-head'],series:[{name:'North',color:C.north,values:g('N')},{name:'South',color:C.south,values:g('S')}],h:300,fmt:fmtC});
+ const A=getR('A');const rr=i=>A&&!A.suppressed&&A.corr[i]?A.corr[i][0]:null;const words=r=>r==null?'':Math.abs(r)<.1?'no real link':(Math.abs(r)<.3?'weak ':Math.abs(r)<.5?'moderate ':'strong ')+(r>0?'positive':'negative');
+ tiles('corrTiles',[{ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Female-headed: got support',f:o=>o.fhh.support,fmt:'p',sub:o=>o&&!o.suppressed?`male-headed: ${fmtP(o.fhh.support_m)}`:''},
+  {ic:'⚖️',acc:C.pink,lab:'Female-headed: avg L&D',f:o=>o.fhh.avg,sub:o=>o&&!o.suppressed?`male-headed: BDT ${fmtC(o.fhh.avg_m)}`:''},
+  {ic:'🔨',bg:'#FDF1E6',acc:C.north,lab:'House damage ↔ repair',f:o=>o.corr[6]?o.corr[6][0]:null,fmt:'r',sub:()=>words(rr(6))},
+  {ic:'🤝',bg:'#E7F6F3',acc:C.teal,lab:'Friendship support ↔ L&D',f:o=>o.corr[1]?o.corr[1][0]:null,fmt:'r',sub:()=>words(rr(1))}]);
+}
+function rWomen(){
+ tiles('w1',[{ic:'👩',bg:'#F7E9F2',acc:C.pink,lab:'Women in affected HHs',f:o=>o.women.in_affected,fmt:'n'},{ic:'♿',bg:'#E6F0F6',acc:C.pink,lab:'Women with disability',f:o=>o.women.disabled,fmt:'n'},
+  {ic:'💍',bg:'#F7E9F2',acc:C.pink,lab:'Child marriage: climate',f:o=>o.women.cm_climate,fmt:'n',hint:'Women/girls married before 18 where climate income loss or displacement was a cause'},
+  {ic:'🏥',bg:'#FDECEC',acc:C.red,lab:'Chronic disease in HH',f:o=>o.health[0],fmt:'p'},{ic:'🦟',bg:'#EAF5EA',acc:C.green,lab:'Mosquito disease',f:o=>o.health[1],fmt:'p'},{ic:'🍚',bg:'#FFF4D6',acc:C.south,lab:'Women <3 meals/day',f:o=>o.health[4],fmt:'p'}]);
+ tiles('w2',[{ic:'💳',acc:C.all,lab:'HHs in debt',f:o=>o.debt.pct,fmt:'p'},{ic:'🏦',acc:C.all,lab:'Avg debt / indebted HH',f:o=>o.debt.avg},
+  {ic:'🔨',bg:'#FDF1E6',acc:C.south,lab:'Loan: repair damaged house',f:o=>o.debt.loan_repair_damaged,fmt:'n'},{ic:'🍚',bg:'#FFF4D6',acc:C.south,lab:'Hit HHs borrowing for food',f:o=>o.debt.food_affected,fmt:'n'},
+  {ic:'💊',bg:'#FDECEC',acc:C.red,lab:'Hit HHs borrowing for care',f:o=>o.debt.care_affected,fmt:'n'},{ic:'💰',bg:'#FDECEC',acc:C.red,lab:'Mahajan (high interest)',f:o=>o.debt.mahajan,fmt:'n'}]);
+ const pick=(r,f,n)=>{const o=getR(r);return o&&!o.suppressed?f(o):Array(n).fill(0)};
+ barChart($('healthChart'),{cats:['Chronic disease','Mosquito disease','Water contamination','Latrine overflow','Women <3 meals','Borrowed for care'],series:[{name:'North',color:C.north,values:pick('N',o=>o.health,6)},{name:'South',color:C.south,values:pick('S',o=>o.health,6)}],horizontal:true,fmt:fmtP,h:300,lw:120});
+ barChart($('purposeChart'),{cats:M.lists.purpose,series:[{name:'North',color:C.north,values:pick('N',o=>o.debt.purpose,8)},{name:'South',color:C.south,values:pick('S',o=>o.debt.purpose,8)}],horizontal:true,fmt:fmtN,h:300,lw:120});
+ barChart($('disChart'),{cats:M.lists.dis_types,series:[{name:'North',color:C.north,values:pick('N',o=>o.women.dis_types,6)},{name:'South',color:C.south,values:pick('S',o=>o.women.dis_types,6)}],horizontal:true,fmt:fmtN,h:300,lw:110,labels:true});
+}
+function rGlobal(){
+ const A=getR('A');const x=A&&!A.suppressed?A.per_hh_year/M.params.iied:null;
+ const T=[['🌍','#E6F0F6',C.navy,'Disasters 2024','393','EM-DAT, worldwide'],['🕯️','#F1EEF6',C.purple,'Deaths 2024','16,753','2004–23 avg: 65,566'],['👥','#EEF0F4',C.all,'People affected','167.2m','2024'],
+  ['💰','#E7F6F3',C.teal,'Economic losses','$242bn','2024'],['🌊','#E6F0F6',C.north,'Bangladesh CRI rank','#13','Germanwatch 2026'],['⚖️','#FDF1E6',C.south,'Our HHs vs IIED',x!=null?x.toFixed(1)+'x':'–',`yearly L&D ÷ BDT ${M.params.iied.toLocaleString()}`]];
+ $('gl1').innerHTML=T.map(([ic,bg,acc,lab,v,sub])=>`<div class="card tile" style="border-top-color:${acc}"><div class="ic" style="background:${bg}">${ic}</div><div class="lab">${lab}</div><div class="val">${v}</div><div class="ns"><span class="x">${sub}</span></div></div>`).join('');
+ barChart($('glChart'),{cats:['Storm','Flood','Earthquake','Drought','Wildfire','Extreme temp.'],series:[{name:'2024',color:C.south,values:[172.6,32.8,18.1,13.3,4.8,0]},{name:'2004–23 avg',color:C.all,values:[102.9,42.8,43.5,11,6.4,2.5]}],fmt:x=>x.toFixed(0),h:270});
+ barChart($('bdChart'),{cats:['Heat wave','Flood (Aug)','Flood (Jun–Jul)','Cyclone Remal'],series:[{name:'People affected (mn)',color:C.north,values:[33,5.8,5.1,4.6]}],horizontal:true,labels:true,fmt:x=>x.toFixed(1),h:270,lw:110});
+}
+function rAbout(){
+ const p=M.params,e=M.excluded;
+ const rows=[['📥','Data',`KoboToolbox baseline: ${(M.households.Northern+M.households.Southern).toLocaleString()} consenting households (North ${M.households.Northern.toLocaleString()} · South ${M.households.Southern.toLocaleString()}), ${M.events.toLocaleString()} disaster events. Updated automatically every day.`],
+  ['🔒','Privacy','Only aggregated figures are published. No names, ID numbers, phone numbers, GPS points or household records. Any filter combination with fewer than 5 households is hidden.'],
+  ['📅','Recall window',`Disaster events dated ${p.win_start}–${p.win_end} and not after the interview (${e.outside_window} events excluded).`],
+  ['🏠','Infrastructure','House + latrine + tubewell damage (BDT). Repair costs are shown separately and not added.'],
+  ['🌾','Livelihood','Crops (estimate: normal-year crop value × % damaged per event) + livestock + poultry losses.'],
+  ['🧹','Cleaning',`Excluded as entry errors: crop damage % above ${p.max_crop_pct} (${e.crop_pct_invalid} events), poultry above BDT ${p.max_pou_per.toLocaleString()}/bird or ${p.max_pou_n.toLocaleString()} birds/event, livestock above BDT ${p.max_liv_per.toLocaleString()}/animal, crop value above BDT ${(p.max_crop_val/1e6)}m.`],
+  ['🔗','Correlations','Pearson r with p-values; 1/0 variables give point-biserial r. Correlation is not causation.'],
+  ['⚠️','Data gaps','No question on women\'s post-disaster illness or disease type, and no before/after debt. Proxies are used and labelled.'],
+  ['💱','Currency',`BDT. US$ at ${p.fx} BDT per dollar.`]];
+ $('aboutCard').innerHTML='<h3>About this observatory</h3>'+rows.map(r=>`<div class="row"><div>${r[0]}</div><b>${r[1]}</b><p>${r[2]}</p></div>`).join('');
+}
+
+/* ---------- controls ---------- */
+const TABS=[['overview','📊','Overview'],['economic','💰','Economic L&D'],['people','🏚️','Assets & people'],['corr','🔗','Correlations'],['women','👩','Women · health · debt'],['global','🌍','Global'],['about','📝','About']];
+function buildControls(){
+ $('fRegion').innerHTML=[['A','All',''],['N','North','n'],['S','South','s']].map(([k,l,c])=>`<button class="pill ${c}" data-k="${k}">${l}</button>`).join('');
+ $('fSex').innerHTML=M.lists.sex.map(k=>`<button class="pill" data-k="${k}">${k==='Female'?'👩 Female':k==='Male'?'👨 Male':k}</button>`).join('');
+ $('fDistrict').innerHTML=M.lists.district.map(d=>`<option>${d}</option>`).join('');
+ $('fType').innerHTML=M.lists.type.map(t=>`<option>${t}</option>`).join('');
+ $('segMeasure').innerHTML=Object.entries(MEAS).map(([k,v])=>`<button data-k="${k}">${v.label}</button>`).join('');
+ $('segView').innerHTML=['District','Disaster type','Year'].map(k=>`<button data-k="${k}">by ${k.toLowerCase()}</button>`).join('');
+ $('tabs').innerHTML=TABS.map(([k,i,l])=>`<button data-k="${k}"><span>${i}</span>${l}</button>`).join('');
+ $('fRegion').onclick=e=>{const b=e.target.closest('button');if(b){S.region=b.dataset.k;if(S.region!=='A'&&S.district!=='All'&&!M.lists.districts[S.region==='N'?'Northern':'Southern'].includes(S.district))S.district='All';syncControls();render()}};
+ $('fSex').onclick=e=>{const b=e.target.closest('button');if(b){S.sex=b.dataset.k;syncControls();render()}};
+ $('fDistrict').onchange=e=>{S.district=e.target.value;syncControls();render()};
+ $('fType').onchange=e=>{S.type=e.target.value;render()};
+ $('segMeasure').onclick=e=>{const b=e.target.closest('button');if(b){S.measure=b.dataset.k;syncControls();rOverview()}};
+ $('segView').onclick=e=>{const b=e.target.closest('button');if(b){S.view=b.dataset.k;syncControls();rOverview()}};
+ $('tabs').onclick=e=>{const b=e.target.closest('button');if(b){S.tab=b.dataset.k;syncControls();render();location.hash=S.tab}};
+ $('reset').onclick=()=>{Object.assign(S,{region:'A',district:'All',sex:'All',type:'All'});syncControls();render()};
+ if(location.hash.slice(1)&&TABS.some(t=>t[0]===location.hash.slice(1)))S.tab=location.hash.slice(1);
+}
+function syncControls(){
+ const set=(id,k)=>$(id).querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+ set('fRegion',S.region);set('fSex',S.sex);set('segMeasure',S.measure);set('segView',S.view);set('tabs',S.tab);
+ $('fDistrict').value=S.district;$('fType').value=S.type;
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on',p.id==='p-'+S.tab));
+}
+function render(){
+ const o=getR();const sup=!o||o.suppressed;$('warn').style.display=sup?'block':'none';
+ $('inview').textContent=o?fmtN(o.n):'–';
+ ({overview:rOverview,economic:rEconomic,people:rPeople,corr:rCorr,women:rWomen,global:rGlobal,about:rAbout})[S.tab]();
+}
+async function init(){
+ try{const j=window.__DATA__||await (await fetch('data.json',{cache:'no-cache'})).json();D=j.data;M=j.meta}catch(err){$('upd').textContent='could not load data.json';return}
+ $('upd').textContent='🔄 updated '+M.updated;$('foot').textContent='last update '+M.updated;
+ buildControls();syncControls();render();
+}
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>M&&render(),200)});
+init();
+</script>
+</body>
+</html>
